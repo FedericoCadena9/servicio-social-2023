@@ -1,18 +1,23 @@
-"use client";
-import { useState } from 'react'
+import React from 'react'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
+import SignOutButton from '@/components/SignOutButton'
 
-import { createClient } from "@supabase/supabase-js";
+export default async function Home() {
+  const supabase = createServerComponentClient({ cookies })
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
 
-export default function Home() {
+  // console.log('session', session);
 
   return (
     <div>
       Home
+
+      <SignOutButton />
     </div>
-  );
+  )
 }
+
