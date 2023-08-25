@@ -20,7 +20,6 @@ import {
 import {
     PlusIcon, EllipsisVerticalIcon, MagnifyingGlassIcon, ChevronDownIcon
 } from "@heroicons/react/24/outline";
-import { columns, initialValues, statusOptions } from "@/app/alumnos/tableData"
 import { capitalize } from "@/app/utils";
 
 const statusColorMap = {
@@ -29,9 +28,9 @@ const statusColorMap = {
     vacation: "warning",
 };
 
-const INITIAL_VISIBLE_COLUMNS = initialValues;
+export function TableComponent({ data, type, columns, initialValues, statusOptions }) {
 
-export function TableComponent({ data, type }) {
+    const INITIAL_VISIBLE_COLUMNS = initialValues;
 
     const [filterValue, setFilterValue] = useState("");
     const [selectedKeys, setSelectedKeys] = useState(new Set([]));

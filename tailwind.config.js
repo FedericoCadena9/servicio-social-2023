@@ -22,7 +22,7 @@ module.exports = {
     nextui({
       themes: {
         emerald: {
-          extend: "dark", // <- inherit default values from dark theme
+          // extend: "dark", // <- inherit default values from dark theme
           colors: {
             primary: {
               50: "#ecfdf5",
