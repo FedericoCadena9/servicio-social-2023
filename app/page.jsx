@@ -2,6 +2,14 @@ import React from 'react'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import SignOutButton from '@/components/SignOutButton'
+import { DashboardLayout } from '@/components/DashboardLayout'
+
+
+export const metadata = {
+  title: 'Home | Departamento de Convenios',
+  description: '...'
+}
+
 
 export default async function Home() {
   const supabase = createServerComponentClient({ cookies })
@@ -10,13 +18,11 @@ export default async function Home() {
     data: { session },
   } = await supabase.auth.getSession()
 
-  // console.log('session', session);
-
   return (
     <div>
-      Home
-
-      <SignOutButton />
+      <DashboardLayout>
+        Home
+      </DashboardLayout>
     </div>
   )
 }
