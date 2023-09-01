@@ -7,6 +7,7 @@ import clsx from 'clsx';
 const montserrat = Montserrat({
   subsets: ['latin'],
 })
+export const dynamic = 'force-dynamic'
 
 export default function RootLayout({ children }) {
   return (
