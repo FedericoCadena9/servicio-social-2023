@@ -7,15 +7,35 @@ const columns = [
   { name: "Carrera", uid: "carrera", sortable: true },
   { name: "Semestre", uid: "semestre", sortable: true },
   { name: "Creditos Totales", uid: "creditosTotales", sortable: true },
-    { name: "Creditos Actuales", uid: "creditosActuales", sortable: true },
+  { name: "Estatus", uid: "status", sortable: true },
+  { name: "Creditos Actuales", uid: "creditosActuales", sortable: true },
+  { name: "Clave Dependencia", uid: "dependenciaId"},
+  {name: "Acciones", uid: "actions"},
 ];
+
+const statusColorMap = {
+  presentaServicio: "success",  // Para los que pueden hacer servicio
+  noPresenta: "danger", // Para los que no pueden hacer servicio
+  presentaVerano: "warning",  // Para los que deberían hacer verano
+};
 
 const statusOptions = [
-  { name: "Todos", uid: "all" },
-  { name: "Activos", uid: "active" },
-  { name: "No acredita", uid: "negative" },
+  { name: "Presenta servicio", uid: "presentaServicio" },
+  { name: "No presenta", uid: "noPresenta" },
+  { name: "Presenta verano", uid: "presentaVerano" },
 ];
 
-const initialValues = ["matricula", "nombre", "apePaterno", "apeMaterno", "carrera", "semestre", "creditosTotales", "creditosActuales"];
+const initialValues = [
+  "matricula",
+  "nombre",
+  "apePaterno",
+  "apeMaterno",
+  "carrera",
+  "semestre",
+  "status",
+  "creditosTotales",
+  "dependenciaId",
+  "actions"
+];
 
-export { columns, statusOptions, initialValues };
+export { columns, statusOptions, statusColorMap, initialValues };
