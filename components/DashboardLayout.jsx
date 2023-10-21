@@ -2,11 +2,11 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
-import Logo from '@/components/Logo'
-import { Header } from '@/components/Header'
-import { HeroPattern } from '@/components/HeroPattern'
-import { Navigation } from '@/components/Navigation'
-import { SectionProviderStore } from '@/app/store/sectionProviderStore'
+import Logo from '../components/Logo'
+import { Header } from '../components/Header'
+import { HeroPattern } from '../components/HeroPattern'
+import { Navigation } from '../components/Navigation'
+import { SectionProviderStore } from '../app/store/sectionProviderStore'
 
 export function DashboardLayout({ children, sections = [] }) {
     return (
