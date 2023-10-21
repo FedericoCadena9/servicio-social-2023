@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import {
     MobileNavigation,
     useIsInsideMobileNavigation,
-} from '@/components/MobileNavigation'
+} from '../components/MobileNavigation'
 import { useMobileNavigationStore } from '../components/MobileNavigation'
 import SignOutButton from '../components/SignOutButton'
 import { ModeToggle } from '../components/ModeToggle'

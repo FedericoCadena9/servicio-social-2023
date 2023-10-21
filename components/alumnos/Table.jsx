@@ -28,14 +28,14 @@ import {
 import {
     PlusIcon, EllipsisVerticalIcon, MagnifyingGlassIcon, ChevronDownIcon
 } from "@heroicons/react/20/solid";
-import { capitalize } from "../../utils/supabase";
+import { capitalize } from "../../app/utils";
 import EditModal from "../EditModal";
 import DependenciesModal from "./DependenciesModal";
 import DocumentsModal from "./DocumentsModal";
 
 
-import exportPdf from "@/utils/exportPdf";
-import { clientSupabase as supabase } from "@/utils/supabase";
+import exportPdf from "../../utils/exportPdf";
+import { clientSupabase as supabase } from "../../utils/supabase";
 import { useRouter } from "next/navigation";
 
 

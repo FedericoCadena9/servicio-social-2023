@@ -6,8 +6,8 @@ import { DashboardLayout } from '../../components/DashboardLayout'
 import { TextBlock } from "../../components/TextBlock";
 
 
-import { columns, initialValues, statusOptions, statusColorMap } from "@/app/alumnos/tableData";
-import { capitalizeEachWord } from '@/utils/capitalize';
+import { columns, initialValues, statusOptions, statusColorMap } from "../../app/alumnos/tableData";
+import { capitalizeEachWord } from '../../utils/capitalize';
 
 export const metadata = {
   title: 'Alumnos | Departamento de Convenios',
