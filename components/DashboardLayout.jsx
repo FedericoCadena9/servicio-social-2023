@@ -26,7 +26,7 @@ export function DashboardLayout({ children, sections = [] }) {
                     <Navigation className="hidden lg:mt-10 lg:block" />
                 </motion.header>
                 <div className="relative px-4 pt-14 sm:px-6 lg:px-8">
-                    <main className="py-16">
+                    <main className="pb-16 pt-12">
                         <HeroPattern />
                         {children}
                     </main>

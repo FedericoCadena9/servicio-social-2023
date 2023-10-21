@@ -1,22 +1,11 @@
-"use client"
 import './globals.css'
-import { Montserrat } from 'next/font/google'
-import { NextUIProvider } from "@nextui-org/react";
-import clsx from 'clsx';
+import RootLayout from './rootLayout';
 
-const montserrat = Montserrat({
-  subsets: ['latin'],
-})
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-
-export default function RootLayout({ children }) {
+export default function Layout({ children }) {
   return (
     <html lang="en">
-      <body className={clsx('emerald', montserrat.className)}>
-        <NextUIProvider>
-          {children}
-        </NextUIProvider>
+      <body>
+        <RootLayout>{children}</RootLayout>
       </body>
     </html>
   )

@@ -1,6 +1,6 @@
 "use client"
 import { useState, useCallback, useEffect } from "react";
-import supabase from '@/utils/supabase';
+import { clientSupabase as supabase } from '@/utils/supabase';
 import {
     Table,
     TableHeader,

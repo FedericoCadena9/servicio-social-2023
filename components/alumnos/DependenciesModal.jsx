@@ -4,12 +4,13 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Divid
 import { supabase } from "@/utils/supabase";
 import { ArrowPathRoundedSquareIcon } from "@heroicons/react/20/solid";
 
-export default function DependenciesModal({ isOpen, onOpenChange, selectedStudents }) {
+export default function DependenciesModal({ isOpen, onOpenChange, selectedStudents = [] }) {
 
-    const { nombre, apePaterno, apeMaterno } = selectedStudents;
     const [dependencias, setDependencias] = useState([]);
     const [selectedDependency, setSelectedDependency] = useState(null);
 
+    const student = selectedStudents && selectedStudents.length > 0 ? selectedStudents[0] : null;
+    const { id, nombre, apePaterno, apeMaterno } = student || {};
 
     useEffect(() => {
         const getDependencies = async () => {
@@ -21,12 +22,13 @@ export default function DependenciesModal({ isOpen, onOpenChange, selectedStuden
     }, []);
 
     const handleSave = async () => {
+        console.log(selectedDependency, id);
 
-        if (selectedDependency && selectedStudents.id) {
+        if (selectedDependency && id) {
             const { data, error } = await supabase
                 .from('alumnos')
                 .update({ dependenciaId: selectedDependency })
-                .eq('id', selectedStudents.id)
+                .eq('id', id)
                 .select();
 
             if (error) {

@@ -65,20 +65,11 @@ export function TableComponent({ data, type, columns, initialValues, statusMap, 
             );
         }
 
-        if (type === "alumnos") {
-            const hasStatusFilter = statusFilter !== "all" && statusFilter.length > 0;
-            if (hasStatusFilter) {
-                filteredUsers = filteredUsers.filter((user) =>
-                    Array.from(statusFilter).includes(user.status),
-                );
-            }
-        } else {
-            if (hasStatusFilter) {
-                filteredUsers = filteredUsers.filter((user) =>
-                    Array.from(statusFilter).includes(user.status),
-                );
-            }
-        }
+
+        // filteredUsers = filteredUsers.filter((user) =>
+        //     Array.from(statusFilter).includes(user.status),
+        // );
+
 
         return filteredUsers;
     }, [data, filterValue, statusFilter]);

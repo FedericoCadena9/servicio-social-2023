@@ -186,7 +186,8 @@ export const navigation = [
         links: [
             { title: 'Inicio', href: '/' },
             { title: 'Alumnos', href: '/alumnos' },
-            { title: 'Dependencias', href: '/dependencias' },           
+            { title: 'Dependencias', href: '/dependencias' }, 
+            { title: 'Usuarios', href: '/usuarios' },          
         ],
     },
 

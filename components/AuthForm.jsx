@@ -1,10 +1,9 @@
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { clientSupabase as supabase } from '@/utils/supabase';
+
 
 export default function AuthForm({ view }) {
-    const supabase = createClientComponentClient()
-
     const translateVariables = {
         "sign_up": {
             "email_label": "Correo Electrónico",
@@ -60,6 +59,7 @@ export default function AuthForm({ view }) {
             appearance={{ theme: ThemeSupa }}
             theme="light"
             providers={['google']}
+            showLinks={false}
             redirectTo="http://localhost:3000/auth/callback"
             localization={{
                 variables: translateVariables

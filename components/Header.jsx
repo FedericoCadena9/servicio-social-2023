@@ -11,6 +11,7 @@ import { useMobileNavigationStore } from '@/components/MobileNavigation'
 import SignOutButton from '@/components/SignOutButton'
 import { ModeToggle } from '@/components/ModeToggle'
 import Logo from '@/components/Logo'
+import { UserInfo } from '@/components/UserInfo'
 
 
 export const Header = forwardRef(function Header({ className }, ref) {
@@ -53,6 +54,7 @@ export const Header = forwardRef(function Header({ className }, ref) {
                 </Link>
             </div>
             <div className="flex justify-end w-full items-center gap-5">
+                <UserInfo />
                 <div className="hidden md:block md:h-5 md:w-px md:bg-zinc-900/10 md:dark:bg-white/15" />
                 <div className="flex gap-4">
                     {/* <MobileSearch /> */}
@@ -60,7 +62,6 @@ export const Header = forwardRef(function Header({ className }, ref) {
                 </div>
                 <div className="hidden min-[416px]:contents">
                     <SignOutButton />
-
                 </div>
             </div>
         </motion.div>

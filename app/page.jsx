@@ -1,15 +1,12 @@
-import React from 'react'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import SignOutButton from '@/components/SignOutButton'
 import { DashboardLayout } from '@/components/DashboardLayout'
-
+import { Charts } from '@/components/Charts'
 
 export const metadata = {
   title: 'Home | Departamento de Convenios',
   description: '...'
 }
-
 
 export default async function Home() {
   const supabase = createServerComponentClient({ cookies })
@@ -21,6 +18,7 @@ export default async function Home() {
   return (
     <div>
       <DashboardLayout>
+        {/* <Charts /> */}
         Home
       </DashboardLayout>
     </div>

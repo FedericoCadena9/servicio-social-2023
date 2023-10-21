@@ -30,7 +30,9 @@ import {
 } from "@heroicons/react/20/solid";
 import { capitalize } from "@/app/utils";
 import EditModal from "@/components/EditModal";
-import DependenciesModal from "./DependenciesModal"; // Asegúrate de que la ruta sea correcta
+import DependenciesModal from "./DependenciesModal";
+import DocumentsModal from "./DocumentsModal";
+
 
 import exportPdf from "@/utils/exportPdf";
 import { clientSupabase as supabase } from "@/utils/supabase";
@@ -59,11 +61,9 @@ export function AlumnosTable({ data, columns, initialValues, statusColorMap, sta
 
     const INITIAL_VISIBLE_COLUMNS = initialValues;
 
-    // const { isOpen: isDependenciesOpen, onOpenChange: onDependenciesOpenChange } = useDisclosure();
+    const dependenciesDisclosure = useDisclosure();
+    const documentsDisclosure = useDisclosure();
 
-    const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-
-    const [isLoading, setIsLoading] = useState(false);
     const [selectedStudents, setSelectedStudents] = useState([]);
     const [filterValue, setFilterValue] = useState("");
     const [selectedKeys, setSelectedKeys] = useState(new Set([]));
@@ -139,38 +139,7 @@ export function AlumnosTable({ data, columns, initialValues, statusColorMap, sta
         setSelectedStudents(selected);
     }, [selectedKeys, filteredItems]);
 
-    const handleConfirm = async () => {
-        setIsLoading(true);
-        // Iterar sobre cada estudiante seleccionado y generar un PDF para cada uno
-        const pdfResults = [];
-
-        for (const student of selectedStudents) {
-            const pdfResult = await exportPdf(student).catch(console.error);
-            pdfResults.push(pdfResult);
-        }
-
-        const buffer = Buffer.from(pdfResults[0]);
-        const firstStudent = selectedStudents[0];
-        const { matricula, nombre, apePaterno, apeMaterno } = firstStudent;
-
-        const res = await fetch('/api/send', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ matricula, nombre, apePaterno, apeMaterno, pdfResults: buffer }),
-        });
-
-        if (res.status === 200) {
-            console.log('Email sent successfully');
-        } else {
-            console.log('Error sending email');
-        }
-
-        setIsLoading(false);
-        onClose();
-    };
-
+    
     const handleUserModal = (user) => {
         // Crear un nuevo objeto con solo los campos necesarios
         const selectedUser = {
@@ -180,8 +149,8 @@ export function AlumnosTable({ data, columns, initialValues, statusColorMap, sta
             apeMaterno: user.apeMaterno
         };
 
-        onOpen();
-        setSelectedStudents(selectedUser);
+        dependenciesDisclosure.onOpen();
+        setSelectedStudents([selectedUser]);
     };
 
     const renderCell = useCallback((user, columnKey) => {
@@ -257,7 +226,7 @@ export function AlumnosTable({ data, columns, initialValues, statusColorMap, sta
                     />
                     <div className="flex gap-3">
                         {selectedKeys.size > 0 && (
-                            <Button color="primary" onPress={() => { onOpen(); showSelectedStudents(); }} endContent={<PlusIcon className="w-5 h-5" />}>Generar documentos</Button>
+                            <Button color="primary" onPress={() => { showSelectedStudents(); documentsDisclosure.onOpen(); }} endContent={<PlusIcon className="w-5 h-5" />}>Generar documentos</Button>
                         )}
                         <Dropdown>
                             <DropdownTrigger className="hidden sm:flex">
@@ -398,7 +367,22 @@ export function AlumnosTable({ data, columns, initialValues, statusColorMap, sta
                 </TableBody>
             </Table>
 
-            <DependenciesModal isOpen={isOpen} onOpenChange={onOpenChange} selectedStudents={selectedStudents} />
+            <DependenciesModal
+                isOpen={dependenciesDisclosure.isOpen}
+                onOpenChange={dependenciesDisclosure.onOpenChange}
+                onClose={dependenciesDisclosure.onClose}
+                selectedStudents={selectedStudents}
+            />
+
+            <DocumentsModal
+                isOpen={documentsDisclosure.isOpen}
+                onOpenChange={documentsDisclosure.onOpenChange}
+                onClose={documentsDisclosure.onClose}
+                selectedKeys={selectedKeys.size}
+                selectedStudents={selectedStudents}
+            />
+
+
             {/* <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent>
                 <ModalHeader>Generar documento</ModalHeader>
@@ -418,6 +402,7 @@ export function AlumnosTable({ data, columns, initialValues, statusColorMap, sta
                 </ModalFooter>
             </ModalContent>
         </Modal> */}
+
         </>
     );
 }

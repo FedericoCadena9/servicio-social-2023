@@ -9,6 +9,8 @@ const columns = [
   { name: "Teléfono", uid: "telefono", sortable: true },
   { name: "Correo Electrónico", uid: "correo", sortable: true },
   { name: "Domicilio", uid: "domicilio", sortable: true },
+  {name: "Acciones", uid: "acciones"},
+
 ];
 
 const statusOptions = [
@@ -23,6 +25,7 @@ const initialValues = [
     "perfil",
     "correo",
     "domicilio",
+    "acciones"
 ];
 
 export { columns, statusOptions, initialValues };
