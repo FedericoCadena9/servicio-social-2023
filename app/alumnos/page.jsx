@@ -1,9 +1,9 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers';
 
-import { AlumnosTable } from "@/components/alumnos/Table";
-import { DashboardLayout } from '@/components/DashboardLayout'
-import { TextBlock } from "@/components/TextBlock";
+import { AlumnosTable } from "../../components/alumnos/Table";
+import { DashboardLayout } from '../../components/DashboardLayout'
+import { TextBlock } from "../../components/TextBlock";
 
 
 import { columns, initialValues, statusOptions, statusColorMap } from "@/app/alumnos/tableData";

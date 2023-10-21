@@ -1,7 +1,7 @@
 'use client'
-import { HeroPattern } from '@/components/HeroPattern'
+import { HeroPattern } from '../../components/HeroPattern'
 import Head from 'next/head';
-import AuthForm from '@/components/AuthForm'
+import AuthForm from '../../components/AuthForm'
 import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import { motion } from "framer-motion"
 
