@@ -4,6 +4,7 @@ import { clientSupabase as supabase } from '../utils/supabase';
 
 
 export default function AuthForm({ view }) {
+    const redirectTo = process.env.NEXT_PUBLIC_REDIRECT_URI;
     const translateVariables = {
         "sign_up": {
             "email_label": "Correo Electrónico",
@@ -60,7 +61,7 @@ export default function AuthForm({ view }) {
             theme="light"
             providers={['google']}
             showLinks={false}
-            redirectTo="http://localhost:3000/auth/callback"
+            redirectTo={`${redirectTo}/auth/callback`}
             localization={{
                 variables: translateVariables
             }}
