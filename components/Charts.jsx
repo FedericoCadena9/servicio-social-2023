@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from 'react'
-import supabase from '@/utils/supabase';
+import supabase from '../utils/supabase';
 import { Bar } from 'react-chartjs-2'
 import { Card, CardHeader, Avatar, CardBody, CardFooter, Divider } from "@nextui-org/react";
 import { UserGroupIcon } from '@heroicons/react/20/solid';

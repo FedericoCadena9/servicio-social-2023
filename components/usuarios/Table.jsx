@@ -1,6 +1,6 @@
 "use client"
 import { useState, useCallback, useEffect } from "react";
-import { clientSupabase as supabase } from '@/utils/supabase';
+import { clientSupabase as supabase } from '../../utils/supabase';
 import {
     Table,
     TableHeader,
@@ -22,9 +22,9 @@ import {
     ClipboardDocumentListIcon,
     PencilSquareIcon
 } from '@heroicons/react/24/solid';
-import { columns } from "@/app/usuarios/tableData";
+import { columns } from "../../app/usuarios/tableData";
 
-import DeleteUserModal from '@/components/usuarios/DeleteUserModal';
+import DeleteUserModal from './DeleteUserModal';
 
 export default function UsersTable({ serverUsers }) {
 

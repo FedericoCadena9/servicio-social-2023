@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input } from "@nextui-org/react";
 import { EnvelopeIcon } from "@heroicons/react/20/solid";
 
-import supabase from '@/utils/supabase';
+import supabase from '../../utils/supabase';
 
 
 export function InviteUserModal() {

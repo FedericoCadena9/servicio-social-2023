@@ -7,11 +7,11 @@ import {
     MobileNavigation,
     useIsInsideMobileNavigation,
 } from '@/components/MobileNavigation'
-import { useMobileNavigationStore } from '@/components/MobileNavigation'
-import SignOutButton from '@/components/SignOutButton'
-import { ModeToggle } from '@/components/ModeToggle'
-import Logo from '@/components/Logo'
-import { UserInfo } from '@/components/UserInfo'
+import { useMobileNavigationStore } from '../components/MobileNavigation'
+import SignOutButton from '../components/SignOutButton'
+import { ModeToggle } from '../components/ModeToggle'
+import Logo from '../components/Logo'
+import { UserInfo } from '../components/UserInfo'
 
 
 export const Header = forwardRef(function Header({ className }, ref) {

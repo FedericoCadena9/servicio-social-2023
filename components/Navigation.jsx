@@ -7,9 +7,9 @@ import { AnimatePresence, motion, useIsPresent } from 'framer-motion'
 import { Button } from '@nextui-org/react'
 
 
-import { useIsInsideMobileNavigation } from '@/components/MobileNavigation'
-import { useSectionStore } from '@/app/store/sectionProviderStore'
-import { remToPx } from '@/lib/remToPx'
+import { useIsInsideMobileNavigation } from './MobileNavigation'
+import { useSectionStore } from '../app/store/sectionProviderStore'
+import { remToPx } from '../lib/remToPx'
 
 function useInitialValue(value, condition = true) {
     let initialValue = useRef(value).current

@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Divider, Select, SelectItem, Chip } from "@nextui-org/react";
-import { supabase } from "@/utils/supabase";
+import { supabase } from "../../utils/supabase";
 import { ArrowPathRoundedSquareIcon } from "@heroicons/react/20/solid";
 
 export default function DependenciesModal({ isOpen, onOpenChange, selectedStudents = [] }) {

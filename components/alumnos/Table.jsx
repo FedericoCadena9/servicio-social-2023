@@ -28,8 +28,8 @@ import {
 import {
     PlusIcon, EllipsisVerticalIcon, MagnifyingGlassIcon, ChevronDownIcon
 } from "@heroicons/react/20/solid";
-import { capitalize } from "@/app/utils";
-import EditModal from "@/components/EditModal";
+import { capitalize } from "../../utils/supabase";
+import EditModal from "../EditModal";
 import DependenciesModal from "./DependenciesModal";
 import DocumentsModal from "./DocumentsModal";
 

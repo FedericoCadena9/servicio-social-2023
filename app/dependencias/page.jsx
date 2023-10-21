@@ -1,11 +1,11 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers';
 
-import { TableComponent } from "@/components/dependencias/Table";
-import { DashboardLayout } from '@/components/DashboardLayout'
-import { TextBlock } from "@/components/TextBlock";
+import { TableComponent } from "../../components/dependencias/Table";
+import { DashboardLayout } from '../../components/DashboardLayout'
+import { TextBlock } from "../../components/TextBlock";
 
-import { columns, initialValues, statusOptions } from "@/app/dependencias/tableData";
+import { columns, initialValues, statusOptions } from "../../app/dependencias/tableData";
 
 export default async function Dependencias() {
 

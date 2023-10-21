@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from 'react';
 import { User, Link, Skeleton } from "@nextui-org/react";
-import { clientSupabase as supabase } from '@/utils/supabase';
+import { clientSupabase as supabase } from '../utils/supabase';
 import { UserIcon } from '@heroicons/react/20/solid';
 
 export const UserInfo = () => {

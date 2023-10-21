@@ -1,10 +1,10 @@
-import UsersTable from '@/components/usuarios/Table';
-import { clientSupabase as supabase } from '@/utils/supabase';
+import UsersTable from '../../components/usuarios/Table';
+import { clientSupabase as supabase } from '../../utils/supabase';
 
 
-import { DashboardLayout } from '@/components/DashboardLayout'
-import { TextBlock } from "@/components/TextBlock";
-import { InviteUserModal } from "@/components/usuarios/InviteUserModal";
+import { DashboardLayout } from '../../components/DashboardLayout'
+import { TextBlock } from "../../components/TextBlock";
+import { InviteUserModal } from "../../components/usuarios/InviteUserModal";
 
 export const revalidate = 0;
 

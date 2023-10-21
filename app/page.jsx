@@ -1,7 +1,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import { DashboardLayout } from '@/components/DashboardLayout'
-import { Charts } from '@/components/Charts'
+import { DashboardLayout } from '../components/DashboardLayout'
+import { Charts } from '../components/Charts'
 
 export const metadata = {
   title: 'Home | Departamento de Convenios',
