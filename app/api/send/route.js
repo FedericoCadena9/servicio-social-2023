@@ -10,15 +10,12 @@ export async function POST(req) {
     const data = await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",
       to: ["federicocadena091@gmail.com"],
-      subject: `Welcome ${nombre}!`,
+      subject: `${matricula} - Comienzo del Periodo de Servicio Social y Asignación de Dependencias`,
       react: EmailTemplate({ matricula, nombre, apePaterno, apeMaterno }),
       attachments,
     });
 
     return NextResponse.json(
-      {
-        message: "Welcome email sent!",
-      },
       {
         status: 200,
       }

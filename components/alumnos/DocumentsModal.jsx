@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Divider, Select, SelectItem, Chip } from "@nextui-org/react";
 import { CartaCompromisoDeServicioSocial } from "../plantillas/CartaCompromisoDeServicioSocial";
 import { SolicitudDeServicioSocial } from "../plantillas/SolicitudDeServicioSocial";
 import html2pdf from 'html2pdf.js';
 import ReactDOMServer from 'react-dom/server';
-import { blobToBase64 } from '../../utils/blobToBase64';
 
 const templates = [
     CartaCompromisoDeServicioSocial,
@@ -36,8 +35,8 @@ export default function DocumentsModal({ isOpen, onOpenChange, onClose, selected
         };
 
         const pdfBlob = await html2pdf().from(htmlString).set(pdfOptions).outputPdf('blob');
-        const pdfBase64 = await blobToBase64(pdfBlob);  // Convierte Blob a base64
-        return pdfBase64.split(',')[1];  // Elimina la parte 'data:application/pdf;base64,' del resultado
+        const pdfBase64 = await blobToBase64(pdfBlob); 
+        return pdfBase64.split(',')[1];
     };
 
     const handleConfirm = async () => {
@@ -55,7 +54,6 @@ export default function DocumentsModal({ isOpen, onOpenChange, onClose, selected
                 attachments.push(attachment);
             }
             student.attachments = attachments;
-            console.log(student);
             await sendEmail(student);
         }
 

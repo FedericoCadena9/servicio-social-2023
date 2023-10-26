@@ -22,7 +22,7 @@ import {
 import {
     PlusIcon, EllipsisVerticalIcon, MagnifyingGlassIcon, ChevronDownIcon
 } from "@heroicons/react/20/solid";
-import { capitalize } from "../../utils/capitalize";
+import { capitalize } from "../../app/utils";
 import EditModal from "../EditModal";
 
 const statusColorMap = {
