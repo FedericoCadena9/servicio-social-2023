@@ -26,6 +26,7 @@
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
     "framer-motion": "^10.16.1",
+    "html2pdf.js": "^0.10.1",
     "next": "13.4.19",
     "pdf-lib": "^1.17.1",
     "postcss": "8.4.28",

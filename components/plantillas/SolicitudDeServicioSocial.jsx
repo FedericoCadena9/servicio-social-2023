@@ -1,6 +1,27 @@
 import Image from 'next/image';
 
-export const SolicitudDeServicioSocial = () => {
+export const SolicitudDeServicioSocial = ({ alumno }) => {
+
+  function semesterToText(semestre) {
+    switch (semestre) {
+      case 7:
+        return 'séptimo';
+      case 8:
+        return 'octavo';
+      case 9:
+        return 'noveno';
+      case 10:
+        return 'décimo';
+      default:
+        return semestre.toString();
+    }
+  }
+
+  const currentDate = new Date();
+  const day = currentDate.getDate();
+  const month = currentDate.getMonth() + 1;
+  const year = currentDate.getFullYear();
+
   const options = [
     'Educación',
     'Actividades cívicas',
@@ -56,10 +77,10 @@ export const SolicitudDeServicioSocial = () => {
             <h2 className="font-semibold">Datos personales:</h2>
             <div className='flex items-center justify-between'>
               <p>Nombre completo:
-                <span className="border-b-1 border-black pr-10 mx-2 bg-white">Hector Federico Cadena Lopez</span>
+                <span className="border-b-1 border-black pr-10 mx-2 bg-white">{alumno.nombre} {alumno.apePaterno} {alumno.apeMaterno}</span>
               </p>
               <p>Sexo:
-                <span className="border-b-1 border-black pr-6 mx-2 bg-white">Masculino</span>
+                <span className="border-b-1 border-black pr-6 mx-2 bg-white">{alumno.sexo}</span>
               </p>
             </div>
             <div className='flex items-center justify-between'>

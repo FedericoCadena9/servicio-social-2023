@@ -18,7 +18,7 @@ export default async function Alumnos() {
 
   const supabase = createServerComponentClient({ cookies })
   const { data: alumnos, error } = await supabase.from('alumnos')
-    .select(`*, dependencias(clavePrograma)`)
+    .select(`*, dependencias(*)`)
     .order('matricula', { ascending: true })
     .neq('creditosTotales', 250)
 

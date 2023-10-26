@@ -1,6 +1,27 @@
 import Image from 'next/image';
 
-export const CartaCompromisoDeServicioSocial = () => {
+export const CartaCompromisoDeServicioSocial = ({ alumno }) => {
+
+    function semesterToText(semestre) {
+        switch (semestre) {
+            case 7:
+                return 'séptimo';
+            case 8:
+                return 'octavo';
+            case 9:
+                return 'noveno';
+            case 10:
+                return 'décimo';
+            default:
+                return semestre.toString();
+        }
+    }
+
+    const currentDate = new Date();
+    const day = currentDate.getDate();
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
+
     return (
         <div className="w-[215.9mm] h-[279.4mm] bg-white border-1 border-gray-200 box-border m-auto py-20 px-14">
             <div className="flex items-center justify-between">
@@ -30,47 +51,47 @@ export const CartaCompromisoDeServicioSocial = () => {
                 </div>
                 <div className="col-span-6">
                     <p className='flex'>Nombre del prestador(a) de Servicio Social:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">Hector Federico Cadena Lopez</span>
+                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.nombre} {alumno.apePaterno} {alumno.apeMaterno}</span>
                     </p>
                 </div>
                 <div className="col-span-3">
                     <p className='flex'>Número de matrícula:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">19021089</span>
+                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.matricula}</span>
                     </p>
                 </div>
                 <div className="col-span-3">
                     <p className='flex'>Domicilio:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">Mejui #2 Col. Los Nogales</span>
+                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.domicilio}</span>
                     </p>
                 </div>
                 <div className="col-span-2">
                     <p className='flex'>Teléfono:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">7721125436</span>
+                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.telefono}</span>
                     </p>
                 </div>
                 <div className="col-span-2">
                     <p className='flex'>Carrera:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">Innovacion agricola sustentable</span>
+                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.carrera}</span>
                     </p>
                 </div>
                 <div className="col-span-2">
                     <p className='flex'>Semestre:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">Septimo</span>
+                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{semesterToText(alumno.semestre)}</span>
                     </p>
                 </div>
                 <div className="col-span-6">
                     <p className='flex'>Dependencia u organismo:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">Dependencia</span>
+                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.dependencias.nombrePrograma}</span>
                     </p>
                 </div>
                 <div className="col-span-6">
                     <p className='flex'>Domicilio de la dependencia:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">Domicilio</span>
+                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.dependencias.domicilio}</span>
                     </p>
                 </div>
                 <div className="col-span-6">
                     <p className='flex'>Responsable del programa:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">Responsable</span>
+                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.dependencias.responsableArea}</span>
                     </p>
                 </div>
                 <div className="col-span-3">
@@ -94,11 +115,11 @@ export const CartaCompromisoDeServicioSocial = () => {
                 </div>
                 <div className="col-span-6 mt-6">
                     <p className='flex'>En la ciudad de El Saucillo, Huichapan, Hidalgo a
-                        <span className="border-b-1 border-black bg-white ml-2 px-2">12</span>
+                        <span className="border-b-1 border-black bg-white ml-2 px-2">{day}</span>
                         del mes
-                        <span className="border-b-1 border-black bg-white ml-2 px-2">12</span>
+                        <span className="border-b-1 border-black bg-white ml-2 px-2">{month}</span>
                         de
-                        <span className="border-b-1 border-black bg-white ml-2 px-2">2023</span>.
+                        <span className="border-b-1 border-black bg-white ml-2 px-2">{year}</span>.
                     </p>
                 </div>
                 <div className="col-span-6 mt-4">
