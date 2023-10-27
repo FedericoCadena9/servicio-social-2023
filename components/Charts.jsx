@@ -1,124 +1,123 @@
 "use client"
-import { useEffect, useState } from 'react'
-import supabase from '../utils/supabase';
-import { Bar } from 'react-chartjs-2'
-import { Card, CardHeader, Avatar, CardBody, CardFooter, Divider } from "@nextui-org/react";
-import { UserGroupIcon } from '@heroicons/react/20/solid';
+import {
+  Card,
+  Metric,
+  Text,
+  CategoryBar,
+  Grid,
+  DonutChart,
+  Title,
+  BadgeDelta,
+  Flex,
+  Legend,
+  List,
+  ListItem,
+} from "@tremor/react";
+
 
 export const Charts = () => {
 
-  const [alumnosTotal, setAlumnosTotal] = useState(0);
-  const [alumnosInfo, setAlumnosInfo] = useState([]);
-  const [dependencias, setDependencias] = useState([]);
+  const cards = [
+    {
+      title: "Total Alumnos",
+      metric: "434",
+      subCategoryValues: [200, 234],
+      subCategroyColors: ["emerald", "yellow"],
+      subCategoryTitles: ["Realizan servicio", "Posible verano"],
+    },
+    {
+      title: "Total Dependencias",
+      metric: "182",
+      subCategoryValues: [56, 126],
+      subCategroyColors: ["indigo", "red"],
+      subCategoryTitles: ["Vigentes", "Sin vigencia",],
+    },
+    {
+      title: "Total Usuarios",
+      metric: "4",
+      subCategoryValues: [50, 50],
+      subCategroyColors: ["blue", "rose"],
+      subCategoryTitles: ["Administradores", "Prestadores"],
+    },
+  ];
 
-  useEffect(() => {
-    const getChartInfo = async () => {
-      const { count: total, error: totalError } = await supabase.from('alumnos').select('*', { count: 'exact' })
-      const { data: alumnos, error: alumnosError } = await supabase.from('alumnos').select('genero, carrera', { count: 'exact' }).neq('creditosTotales', 250);
-      const { count: dependencias, error: dependenciasError } = await supabase.from('dependencias').select('*', { count: 'exact' });
+  const cities = [
+    {
+      name: "Arquitectura",
+      sales: 120,
+      deltaType: "increase",
+    },
+    {
+      name: "Gastronomia",
+      sales: 50,
+      deltaType: "moderateDecrease",
+    },
+    {
+      name: "Sistemas Computacionales",
+      sales: 48,
+      deltaType: "moderateIncrease",
+    },
+    {
+      name: "Industrial",
+      sales: 189,
+      deltaType: "moderateDecrease",
+    },
+    {
+      name: "Energias Renovables",
+      sales: 46,
+      deltaType: "moderateIncrease",
+    },
+    {
+      name: "Mecatronica",
+      sales: 89,
+    },
+    {
+      name: "Innovacion Agricola Sustentable",
+      sales: 82,
+    },
+  ];
 
-      if (!totalError && total) {
-        setAlumnosTotal(total);
-      }
-
-      if (!alumnosError && alumnos) {
-        setAlumnosInfo(alumnos);
-      }
-
-      if (!dependenciasError && dependencias) {
-        setDependencias(dependencias);
-      }
-
-    };
-    getChartInfo();
-  }, []);
+  const valueFormatter = (number) => `${Intl.NumberFormat("us").format(number).toString()}`;
 
 
   return (
-    <div>
-      <div className="flex gap-4">
-        <Card className="w-full">
-          <CardHeader className="flex gap-3">
-            <Avatar classNames={
-              {
-                base: "bg-black",
-              }
-            } radius="sm" fallback={
-              <UserGroupIcon className="w-6 h-6 text-slate-100" />
-            } />
-            <div className="flex flex-col">
-              <p className="text-md font-semibold text-slate-800">Estudiantes Activos</p>
-              <p className="text-small text-default-500">{alumnosInfo.length}</p>
-            </div>
-          </CardHeader>
-          <Divider />
-          <CardBody>
-            <p className='text-default-500 text-sm'>Estudiantes Totales en el ciclo: {alumnosTotal}</p>
-          </CardBody>
-        </Card>
-
-        <Card className="w-full">
-          <CardHeader className="flex gap-3">
-            <Avatar classNames={
-              {
-                base: "bg-black",
-              }
-            } radius="sm" fallback={
-              <UserGroupIcon className="w-6 h-6 text-slate-100" />
-            } />
-            <div className="flex flex-col">
-              <p className="text-md font-semibold text-slate-800">Dependencias Vigentes</p>
-              <p className="text-small text-default-500">{dependencias}</p>
-            </div>
-          </CardHeader>
-          <Divider />
-          <CardBody>
-            <p className='text-default-500 text-sm'>Dependencias Totales en profesiones: {dependencias}</p>
-          </CardBody>
-        </Card>
-
-        <Card className="w-full">
-          <CardHeader className="flex gap-3">
-            <Avatar classNames={
-              {
-                base: "bg-black",
-              }
-            } radius="sm" fallback={
-              <UserGroupIcon className="w-6 h-6 text-slate-100" />
-            } />
-            <div className="flex flex-col">
-              <p className="text-md font-semibold text-slate-800">Dependencias Vigentes</p>
-              <p className="text-small text-default-500">{dependencias}</p>
-            </div>
-          </CardHeader>
-          <Divider />
-          <CardBody>
-            <p className='text-default-500 text-sm'>Dependencias Totales en profesiones: {dependencias}</p>
-          </CardBody>
-        </Card>
-
-        <Card className="w-full">
-          <CardHeader className="flex gap-3">
-            <Avatar classNames={
-              {
-                base: "bg-black",
-              }
-            } radius="sm" fallback={
-              <UserGroupIcon className="w-6 h-6 text-slate-100" />
-            } />
-            <div className="flex flex-col">
-              <p className="text-md font-semibold text-slate-800">Dependencias Vigentes</p>
-              <p className="text-small text-default-500">{dependencias}</p>
-            </div>
-          </CardHeader>
-          <Divider />
-          <CardBody>
-            <p className='text-default-500 text-sm'>Dependencias Totales en profesiones: {dependencias}</p>
-          </CardBody>
-        </Card>
+    <div className="flex flex-col gap-4">
+      <div>
+        <Grid numItemsSm={2} numItemsLg={3} className="gap-6">
+          {cards.map((item) => (
+            <Card key={item.title}>
+              <Text>{item.title}</Text>
+              <Metric>{item.metric}</Metric>
+              <CategoryBar
+                values={item.subCategoryValues}
+                colors={item.subCategroyColors}
+                className="mt-4"
+              />
+              <Legend
+                categories={item.subCategoryTitles}
+                colors={item.subCategroyColors}
+                className="mt-3"
+              />
+            </Card>
+          ))}
+        </Grid>
       </div>
 
-      {/* <Bar  /> */}
+      <div>
+        <Card className="max-w-md mx-auto">
+          <Flex className="space-x-8" justifyContent="start" alignItems="center">
+            <Title>Alumnos</Title>
+          </Flex>
+          <Legend categories={cities.map((city) => city.name)} className="mt-6" />
+          <DonutChart
+            data={cities}
+            category="sales"
+            index="name"
+            valueFormatter={valueFormatter}
+            className="mt-6"
+          />
+        </Card>
+      </div>
     </div>
   )
 }

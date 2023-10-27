@@ -16,6 +16,7 @@
     "@supabase/auth-ui-react": "^0.4.2",
     "@supabase/auth-ui-shared": "^0.1.6",
     "@supabase/supabase-js": "^2.33.1",
+    "@tremor/react": "^3.10.0",
     "autoprefixer": "10.4.15",
     "axios": "^1.4.0",
     "chart.js": "^4.4.0",

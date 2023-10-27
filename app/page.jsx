@@ -18,8 +18,7 @@ export default async function Home() {
   return (
     <div>
       <DashboardLayout>
-        {/* <Charts /> */}
-        Home
+        <Charts />
       </DashboardLayout>
     </div>
   )
