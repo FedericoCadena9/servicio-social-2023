@@ -1,5 +1,5 @@
 "use client"
-import React, { useCallback, useState, useMemo } from "react";
+import React, { useCallback, useState, useMemo, useEffect } from "react";
 import {
     Table,
     TableHeader,
@@ -17,25 +17,42 @@ import {
     useDisclosure,
     Pagination,
     Spinner,
+    Tooltip
 } from "@nextui-org/react";
 
 import {
-    PlusIcon, EllipsisVerticalIcon, MagnifyingGlassIcon, ChevronDownIcon
+    PlusIcon, TrashIcon, MagnifyingGlassIcon, ChevronDownIcon
 } from "@heroicons/react/20/solid";
 import { capitalize } from "../../app/utils";
-import EditModal from "../EditModal";
-
-const statusColorMap = {
-    active: "success",
-    paused: "danger",
-    vacation: "warning",
-};
+import NewDependencyModal from "./NewDependencyModal";
+import DeleteModal from "./DeleteModal";
+import { clientSupabase as supabase } from "../../utils/supabase";
+import { useRouter } from "next/navigation";
 
 export function TableComponent({ data, type, columns, initialValues, statusMap, statusOptions }) {
 
+    const router = useRouter();
+    useEffect(() => {
+        const channel = supabase.channel('realtime dependencias')
+            .on(
+                'postgres_changes',
+                { event: '*', schema: 'public', table: 'dependencias' },
+                (payload) => {
+                    router.refresh();
+                }
+            )
+            .subscribe()
+
+        return () => {
+            supabase.removeChannel(channel)
+        }
+    }, [supabase, router])
+
     const INITIAL_VISIBLE_COLUMNS = initialValues;
 
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const dependenciesDisclosure = useDisclosure();
+    const deleteDisclosure = useDisclosure();
+
     const [filterValue, setFilterValue] = useState("");
     const [selectedKeys, setSelectedKeys] = useState(new Set([]));
     const [visibleColumns, setVisibleColumns] = useState(new Set(INITIAL_VISIBLE_COLUMNS));
@@ -46,6 +63,13 @@ export function TableComponent({ data, type, columns, initialValues, statusMap, 
         direction: "ascending",
     });
     const [page, setPage] = useState(1);
+    const [currentDependencyId, setCurrentDependencyId] = useState(null);
+
+    const handleOpenDeleteModal = (dependencyId) => {
+        setCurrentDependencyId(dependencyId);
+        deleteDisclosure.onOpen();
+    };
+
 
     const hasSearchFilter = Boolean(filterValue);
 
@@ -56,22 +80,18 @@ export function TableComponent({ data, type, columns, initialValues, statusMap, 
     }, [visibleColumns]);
 
     const filteredItems = useMemo(() => {
-        let filteredUsers = [...data];
+        let filteredDependencies = [...data];
 
         const hasSearchFilter = filterValue !== "" && filterValue !== null;
         if (hasSearchFilter) {
-            filteredUsers = filteredUsers.filter((user) =>
-                user.matricula.toString().startsWith(filterValue),
+            const searchFilterLower = filterValue.toLowerCase();
+
+            filteredDependencies = filteredDependencies.filter((dependency) =>
+                dependency.nombrePrograma && dependency.nombrePrograma.toLowerCase().includes(searchFilterLower),
             );
         }
 
-
-        // filteredUsers = filteredUsers.filter((user) =>
-        //     Array.from(statusFilter).includes(user.status),
-        // );
-
-
-        return filteredUsers;
+        return filteredDependencies;
     }, [data, filterValue, statusFilter]);
 
     const pages = Math.ceil(filteredItems.length / rowsPerPage);
@@ -112,26 +132,18 @@ export function TableComponent({ data, type, columns, initialValues, statusMap, 
                 );
             case "actions":
                 return (
-                    <div className="relative flex justify-end items-center gap-2">
-                        <Dropdown>
-                            <DropdownTrigger>
-                                <Button isIconOnly size="sm" variant="light">
-                                    <EllipsisVerticalIcon
-
-                                        className="text-default-300" />
-                                </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu>
-                                <DropdownItem onPress={onOpen}>Editar</DropdownItem>
-                                <DropdownItem>Eliminar</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
+                    <div className="relative flex justify-center items-center">
+                        <Tooltip color="danger" content="Eliminar dependencia" placement="left-start">
+                            <span className="text-lg text-danger cursor-pointer active:opacity-50" onClick={() => handleOpenDeleteModal(user.id)}>
+                                <TrashIcon className="w-5 h-5" />
+                            </span>
+                        </Tooltip>
                     </div>
                 );
             default:
                 return cellValue;
         }
-    }, []);
+    }, [handleOpenDeleteModal]);
 
     const onNextPage = useCallback(() => {
         if (page < pages) {
@@ -178,6 +190,7 @@ export function TableComponent({ data, type, columns, initialValues, statusMap, 
                         onValueChange={onSearchChange}
                     />
                     <div className="flex gap-3">
+                        <Button color="primary" onPress={() => { dependenciesDisclosure.onOpen(); }} endContent={<PlusIcon className="w-5 h-5" />}>Agregar Dependencia</Button>
                         <Dropdown>
                             <DropdownTrigger className="hidden sm:flex">
                                 <Button endContent={<ChevronDownIcon className="w-5 h-5" />} variant="flat">
@@ -316,7 +329,18 @@ export function TableComponent({ data, type, columns, initialValues, statusMap, 
                 </TableBody>
             </Table>
 
-            <EditModal />
+            <NewDependencyModal
+                isOpen={dependenciesDisclosure.isOpen}
+                onOpenChange={dependenciesDisclosure.onOpenChange}
+                onClose={dependenciesDisclosure.onClose}
+            />
+
+            <DeleteModal
+                isOpen={deleteDisclosure.isOpen}
+                onOpenChange={deleteDisclosure.onOpenChange}
+                onClose={deleteDisclosure.onClose}
+                dependencyId={currentDependencyId}
+            />
         </>
     );
 }

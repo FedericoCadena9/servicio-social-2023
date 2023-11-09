@@ -29,12 +29,9 @@ import {
     PlusIcon, EllipsisVerticalIcon, MagnifyingGlassIcon, ChevronDownIcon
 } from "@heroicons/react/20/solid";
 import { capitalize } from "../../app/utils";
-import EditModal from "../EditModal";
 import DependenciesModal from "./DependenciesModal";
 import DocumentsModal from "./DocumentsModal";
 
-
-import exportPdf from "../../utils/exportPdf";
 import { clientSupabase as supabase } from "../../utils/supabase";
 import { useRouter } from "next/navigation";
 
@@ -48,7 +45,6 @@ export function AlumnosTable({ data, columns, initialValues, statusColorMap, sta
                 'postgres_changes',
                 { event: '*', schema: 'public', table: 'alumnos' },
                 (payload) => {
-                    console.log('Change received!', payload);
                     router.refresh();
                 }
             )
@@ -381,28 +377,6 @@ export function AlumnosTable({ data, columns, initialValues, statusColorMap, sta
                 selectedKeys={selectedKeys.size}
                 selectedStudents={selectedStudents}
             />
-
-
-            {/* <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-            <ModalContent>
-                <ModalHeader>Generar documento</ModalHeader>
-                <ModalBody>
-                    <p>{`Has seleccionado ${selectedKeys.size} alumnos.`}</p>
-                    <ul>
-                        {selectedStudents.map((student, index) => (
-                            <li key={index}>
-                                {`Nombre: ${student.nombre}, Matrícula: ${student.matricula}, Estado: ${student.status}`}
-                            </li>
-                        ))}
-                    </ul>
-                </ModalBody>
-                <ModalFooter>
-                    <Button onPress={onClose}>Cancelar</Button>
-                    <Button onPress={handleConfirm} color="primary" isLoading={isLoading}> Confirmar</Button>
-                </ModalFooter>
-            </ModalContent>
-        </Modal> */}
-
         </>
     );
 }

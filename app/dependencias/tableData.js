@@ -5,11 +5,11 @@ const columns = [
   { name: "Actividades a realizar", uid: "actividades", sortable: true },
   { name: "Perfil Profesional", uid: "perfil", sortable: true },
   { name: "Director General", uid: "directorGeneral", sortable: true },
-  { name: "Responsable del 'Área", uid: "responsableArea", sortable: true },
+  { name: "Responsable del Área", uid: "responsableArea", sortable: true },
   { name: "Teléfono", uid: "telefono", sortable: true },
   { name: "Correo Electrónico", uid: "correo", sortable: true },
   { name: "Domicilio", uid: "domicilio", sortable: true },
-  {name: "Acciones", uid: "acciones"},
+  {name: "Acciones", uid: "actions"},
 
 ];
 
@@ -25,7 +25,7 @@ const initialValues = [
     "perfil",
     "correo",
     "domicilio",
-    "acciones"
+    "actions"
 ];
 
 export { columns, statusOptions, initialValues };
