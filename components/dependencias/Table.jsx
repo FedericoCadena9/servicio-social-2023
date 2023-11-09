@@ -21,7 +21,7 @@ import {
 } from "@nextui-org/react";
 
 import {
-    PlusIcon, TrashIcon, MagnifyingGlassIcon, ChevronDownIcon
+    PlusIcon, TrashIcon, MagnifyingGlassIcon, ChevronDownIcon, PencilSquareIcon
 } from "@heroicons/react/20/solid";
 import { capitalize } from "../../app/utils";
 import NewDependencyModal from "./NewDependencyModal";
@@ -64,10 +64,16 @@ export function TableComponent({ data, type, columns, initialValues, statusMap, 
     });
     const [page, setPage] = useState(1);
     const [currentDependencyId, setCurrentDependencyId] = useState(null);
+    const [editingDependency, setEditingDependency] = useState(null);
 
     const handleOpenDeleteModal = (dependencyId) => {
         setCurrentDependencyId(dependencyId);
         deleteDisclosure.onOpen();
+    };
+
+    const handleModalClose = () => {
+        setEditingDependency(null); 
+        dependenciesDisclosure.onClose();
     };
 
 
@@ -132,7 +138,15 @@ export function TableComponent({ data, type, columns, initialValues, statusMap, 
                 );
             case "actions":
                 return (
-                    <div className="relative flex justify-center items-center">
+                    <div className="relative flex justify-center items-center gap-2">
+                        <Tooltip color="default" content="Editar dependencia" placement="left-start">
+                            <span className="text-lg text-default cursor-pointer active:opacity-50" onClick={() => {
+                                setEditingDependency(user);
+                                dependenciesDisclosure.onOpen();
+                            }}>
+                                <PencilSquareIcon className="w-5 h-5" />
+                            </span>
+                        </Tooltip>
                         <Tooltip color="danger" content="Eliminar dependencia" placement="left-start">
                             <span className="text-lg text-danger cursor-pointer active:opacity-50" onClick={() => handleOpenDeleteModal(user.id)}>
                                 <TrashIcon className="w-5 h-5" />
@@ -190,7 +204,7 @@ export function TableComponent({ data, type, columns, initialValues, statusMap, 
                         onValueChange={onSearchChange}
                     />
                     <div className="flex gap-3">
-                        <Button color="primary" onPress={() => { dependenciesDisclosure.onOpen(); }} endContent={<PlusIcon className="w-5 h-5" />}>Agregar Dependencia</Button>
+                        <Button color="primary" onPress={() => {  setEditingDependency(null); dependenciesDisclosure.onOpen(); }} endContent={<PlusIcon className="w-5 h-5" />}>Agregar Dependencia</Button>
                         <Dropdown>
                             <DropdownTrigger className="hidden sm:flex">
                                 <Button endContent={<ChevronDownIcon className="w-5 h-5" />} variant="flat">
@@ -332,7 +346,8 @@ export function TableComponent({ data, type, columns, initialValues, statusMap, 
             <NewDependencyModal
                 isOpen={dependenciesDisclosure.isOpen}
                 onOpenChange={dependenciesDisclosure.onOpenChange}
-                onClose={dependenciesDisclosure.onClose}
+                onClose={handleModalClose}
+                editData={editingDependency}
             />
 
             <DeleteModal

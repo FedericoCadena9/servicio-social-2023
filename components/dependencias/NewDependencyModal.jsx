@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Textarea, CheckboxGroup, useCheckbox, Chip, VisuallyHidden, tv } from "@nextui-org/react";
 import { CustomCheckbox } from "./CustomCheckbox";
 import { EnvelopeIcon, PhoneIcon, BuildingOfficeIcon, CheckIcon } from "@heroicons/react/20/solid";
@@ -25,7 +25,7 @@ const checkbox = tv({
         }
     }
 })
-export default function NewDependencyModal({ isOpen, onOpenChange }) {
+export default function NewDependencyModal({ isOpen, onOpenChange, editData }) {
 
     const {
         children,
@@ -55,6 +55,30 @@ export default function NewDependencyModal({ isOpen, onOpenChange }) {
         domicilio: '',
     });
 
+    // Determina si el modal está en modo de edición basado en si editData tiene contenido
+    const isEditMode = editData !== null;
+
+    // Carga los datos para editar cuando el modal se abre en modo de edición
+    useEffect(() => {
+        if (isEditMode && editData) {
+            setFormData(editData);
+        } else {
+            // Restablece el formulario si se está creando una nueva dependencia
+            setFormData({
+                nombrePrograma: '',
+                clavePrograma: '',
+                institucion: '',
+                objetivo: '',
+                actividades: '',
+                perfil: [],
+                directorGeneral: '',
+                responsableArea: '',
+                telefono: '',
+                correo: '',
+                domicilio: '',
+            });
+        }
+    }, [editData, isEditMode]);
 
     // Función para manejar los cambios en los inputs y textareas
     const handleInputChange = (e) => {
@@ -85,16 +109,32 @@ export default function NewDependencyModal({ isOpen, onOpenChange }) {
     const handleSubmit = async () => {
         setIsSubmitting(true);
         try {
-            const { data, error } = await supabase
-                .from('dependencias')
-                .insert([formData]);
+            let result; // Esta variable almacenará la respuesta de Supabase.
+
+            console.log('Enviando datos: ', isEditMode);
+            if (isEditMode) {
+                // Estás en modo de edición, actualiza la dependencia existente.
+                result = await supabase
+                    .from('dependencias')
+                    .update({ ...formData })
+                    .match({ id: editData.id });
+            } else {
+                // Estás en modo de creación, inserta una nueva dependencia.
+                result = await supabase
+                    .from('dependencias')
+                    .insert([formData]);
+            }
+
+            // Desestructura data y error de la respuesta de Supabase.
+            const { data, error } = result;
+
             if (error) throw error;
             console.log('Datos enviados con éxito: ', data);
-            onOpenChange(false);
+            onOpenChange(false); // Cierra el modal después de la operación exitosa.
         } catch (error) {
             console.error('Error al enviar los datos: ', error);
         } finally {
-            setIsSubmitting(false);
+            setIsSubmitting(false); // Restablece el estado de envío independientemente del resultado.
         }
     };
 
