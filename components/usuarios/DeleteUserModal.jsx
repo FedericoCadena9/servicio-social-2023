@@ -1,6 +1,7 @@
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from '@nextui-org/react';
+import { supabase } from "../../utils/supabase";
 
-const DeleteUserModal = ({ isOpen, onClose, userId, supabaseAdmin }) => {
+const DeleteUserModal = ({ isOpen, onOpenChange, userId }) => {
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
@@ -9,14 +10,19 @@ const DeleteUserModal = ({ isOpen, onClose, userId, supabaseAdmin }) => {
     };
 
     const handleDeleteUser = async () => {
-        const { data, error } = await supabaseAdmin.auth.admin.deleteUser(userId);
-        console.log(`Usuario eliminado: ${userId}`);
+        const { data, error } = await supabase.auth.admin.deleteUser(userId);
 
-        onClose();
+        if (error) {
+            console.error('Error al eliminar usuario:', error);
+        } else {
+            console.log(`Usuario eliminado: ${userId}`);
+            onOpenChange(false);
+        }
     };
 
+
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent onKeyDown={handleKeyDown}>
                 {(onClose) => (
                     <>

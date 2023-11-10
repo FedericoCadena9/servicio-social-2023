@@ -2,9 +2,7 @@
 import { useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input } from "@nextui-org/react";
 import { EnvelopeIcon } from "@heroicons/react/20/solid";
-
 import supabase from '../../utils/supabase';
-
 
 export function InviteUserModal() {
     const [email, setEmail] = useState('');
@@ -25,11 +23,11 @@ export function InviteUserModal() {
         //     setErrorMessage('El dominio del correo debe ser @iteshu.edu.mx');
         //     return;
         // }
-    
+
         setIsLoading(true);
-        const { data, error } = await supabase.auth.admin.inviteUserByEmail(email);
+        const { data, error } = await supabase.auth.api.inviteUserByEmail(email)
         setIsLoading(false);
-    
+
         if (error) {
             setValidationState('invalid');
             setErrorMessage('Error al enviar la invitación');
@@ -40,7 +38,7 @@ export function InviteUserModal() {
             onOpenChange(false);
         }
     };
-    
+
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     return (

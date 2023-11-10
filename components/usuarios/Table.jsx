@@ -1,6 +1,6 @@
 "use client"
 import { useState, useCallback, useEffect } from "react";
-import { clientSupabase as supabase } from '../../utils/supabase';
+import { supabase } from '../../utils/supabase';
 import {
     Table,
     TableHeader,
@@ -14,7 +14,8 @@ import {
     DropdownMenu,
     DropdownSection,
     DropdownItem,
-    cn
+    cn,
+    useDisclosure
 } from "@nextui-org/react";
 import {
     TrashIcon,
@@ -24,10 +25,14 @@ import {
 } from '@heroicons/react/24/solid';
 import { columns } from "../../app/usuarios/tableData";
 
+import { useRouter } from "next/navigation";
+
 import DeleteUserModal from './DeleteUserModal';
 
 export default function UsersTable({ serverUsers }) {
 
+    const deleteDisclosure = useDisclosure();
+    const router = useRouter();
     const [users, setUsers] = useState(serverUsers.users);
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState(null);
@@ -43,7 +48,7 @@ export default function UsersTable({ serverUsers }) {
 
     useEffect(() => {
         const channel = supabase
-            .channel('table-db-changes')
+            .channel('realtime usuarios')
             .on(
                 'postgres_changes',
                 {
@@ -52,9 +57,7 @@ export default function UsersTable({ serverUsers }) {
                     table: 'users',
                 },
                 (payload) => {
-                    console.log('Change received!', { payload });
-                    setUsers(payload.new);
-                    console.log('new users:', users);
+                    router.refresh();
                 }
             )
             .subscribe()
@@ -62,9 +65,7 @@ export default function UsersTable({ serverUsers }) {
         return () => {
             supabase.removeChannel(channel);
         }
-    }, [supabase, users, setUsers])
-
-    console.log('Users:', users);
+    }, [supabase, router])
 
     //Table components
     const renderCell = useCallback((user, columnKey) => {
@@ -116,7 +117,7 @@ export default function UsersTable({ serverUsers }) {
                                     shortcut="⌘⇧D"
                                     description="Elimina el usuario."
                                     startContent={<TrashIcon className={cn(iconClasses, "text-danger w-6 h-6")} />}
-                                    onClick={() => openModal(user.id)}
+                                    onClick={() => deleteDisclosure.onOpen()}
                                 >
                                     Eliminar usuario
                                 </DropdownItem>
@@ -132,7 +133,6 @@ export default function UsersTable({ serverUsers }) {
 
     return (
         <>
-            <DeleteUserModal isOpen={isModalOpen} onClose={closeModal} userId={selectedUserId} supabaseAdmin={supabase} />
             {users && columns && (
                 <Table className='mt-6' aria-label="Usuarios registrados">
                     <TableHeader columns={columns}>
@@ -150,11 +150,12 @@ export default function UsersTable({ serverUsers }) {
                         )}
                     </TableBody>
                 </Table>
-
-                // <pre>
-                //     {JSON.stringify(users, null, 2)}
-                // </pre>
             )}
+            <DeleteUserModal isOpen={deleteDisclosure.isOpen}
+                onOpenChange={deleteDisclosure.onOpenChange}
+                onClose={deleteDisclosure.onClose}
+                userId={selectedUserId}
+            />
         </>
     )
 }

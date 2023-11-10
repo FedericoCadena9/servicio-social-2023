@@ -1,5 +1,5 @@
 import UsersTable from '../../components/usuarios/Table';
-import { clientSupabase as supabase } from '../../utils/supabase';
+import { supabase } from '../../utils/supabase';
 
 
 import { DashboardLayout } from '../../components/DashboardLayout'
@@ -10,7 +10,7 @@ export const revalidate = 0;
 
 export default async function UsuariosPage() {
 
-    const { data } = await supabase.auth.admin.listUsers();
+    const { data, error } = await supabase.auth.admin.listUsers()
 
     return (
         <DashboardLayout>
