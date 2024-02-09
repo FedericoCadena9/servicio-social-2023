@@ -11,7 +11,7 @@ export default function Login() {
         <>
             <div className='grid grid-cols-12 w-full min-h-screen'>
                 <HeroPattern />
-                <div className="col-span-12 lg:col-span-6 lg:mx-20 mx-4 flex items-center justify-center">
+                <div className="col-span-12 lg:col-span-6 lg:mx-20 mx-4 flex items-center justify-center relative">
                     <Card className="pt-4 md:px-6 z-10">
                         <CardHeader className="flex flex-col items-center text-center">
                             <div>

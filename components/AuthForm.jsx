@@ -1,5 +1,7 @@
 import { Auth } from '@supabase/auth-ui-react'
+import { useState, useEffect } from 'react';
 import { ThemeSupa } from '@supabase/auth-ui-shared'
+import { Divider, Skeleton } from "@nextui-org/react";
 import { clientSupabase as supabase } from '../utils/supabase';
 
 
@@ -53,7 +55,43 @@ export default function AuthForm({ view }) {
         },
     }
 
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    if (loading) {
+        return (
+            <>
+                <Skeleton className="rounded-lg">
+                    <div className="h-12 rounded-lg bg-default-300"></div>
+                </Skeleton>
+
+                <Divider className="my-6" />
+
+                <div className="space-y-3">
+                    <Skeleton className="w-2/5 rounded-lg">
+                        <div className="h-3 w-2/5 rounded-lg bg-default-200"></div>
+                    </Skeleton>
+                    <Skeleton className="rounded-lg">
+                        <div className="h-10 rounded-lg bg-default-300"></div>
+                    </Skeleton>
+                    <Skeleton className="rounded-lg">
+                        <div className="h-10 rounded-lg bg-default-300"></div>
+                    </Skeleton>
+                </div>
+            </>
+        );
+    }
+
     return (
+
         <Auth
             supabaseClient={supabase}
             view={view}
@@ -66,5 +104,6 @@ export default function AuthForm({ view }) {
                 variables: translateVariables
             }}
         />
+
     )
 }
