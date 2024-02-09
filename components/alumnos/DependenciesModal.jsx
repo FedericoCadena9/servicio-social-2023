@@ -13,17 +13,27 @@ export default function DependenciesModal({ isOpen, onOpenChange, selectedStuden
     const { id, nombre, apePaterno, apeMaterno } = student || {};
 
     useEffect(() => {
+        if (!isOpen) {
+            return;
+        }
+
         const getDependencies = async () => {
             let { data } = await supabase.from('dependencias').select('id, nombrePrograma');
             setDependencias(data);
         };
 
+        const getDependencieStudent = async () => {
+            if (id) {
+                let { data: alumnos } = await supabase.from('alumnos').select('dependencias(*)').eq('id', id);
+                setSelectedDependency(alumnos[0].dependencias);
+            }
+        }
+
         getDependencies();
-    }, []);
+        getDependencieStudent();
+    }, [isOpen, selectedStudents]);
 
     const handleSave = async () => {
-        console.log(selectedDependency, id);
-
         if (selectedDependency && id) {
             const { data, error } = await supabase
                 .from('alumnos')
@@ -70,6 +80,7 @@ export default function DependenciesModal({ isOpen, onOpenChange, selectedStuden
                                     placeholder="Seleccionar una dependencia"
                                     size="sm"
                                     className="max-w-full"
+                                    selectedKeys={[selectedDependency?.id]}
                                     onChange={(event) => {
                                         setSelectedDependency(event.target.value);
                                     }}
