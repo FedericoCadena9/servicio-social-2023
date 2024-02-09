@@ -5,13 +5,15 @@ export const CartaCompromisoDeServicioSocial = ({ alumno }) => {
     function semesterToText(semestre) {
         switch (semestre) {
             case 7:
-                return 'séptimo';
+                return 'Séptimo';
             case 8:
-                return 'octavo';
+                return 'Octavo';
             case 9:
-                return 'noveno';
+                return 'Noveno';
             case 10:
-                return 'décimo';
+                return 'Décimo';
+            case 11:
+                return 'Onceavo';
             default:
                 return semestre.toString();
         }
@@ -23,7 +25,7 @@ export const CartaCompromisoDeServicioSocial = ({ alumno }) => {
     const year = currentDate.getFullYear();
 
     return (
-        <div className="w-[215.9mm] h-[279.4mm] bg-white border-1 border-gray-200 box-border m-auto py-20 px-14">
+        <div className="w-[215.9mm] h-[279.4mm] bg-white border-1 border-gray-200 box-border m-auto px-20 py-10">
             <div className="flex items-center justify-between">
                 <Image
                     src="/assets/img/iteshuLogo.png"
@@ -50,59 +52,70 @@ export const CartaCompromisoDeServicioSocial = ({ alumno }) => {
                     <p>Con el fin de dar cumplimiento con lo establecido en la Ley Reglamentaria del Artículo 5° Constitucional relativo al ejercicio de profesiones, el suscrito:</p>
                 </div>
                 <div className="col-span-6">
-                    <p className='flex'>Nombre del prestador(a) de Servicio Social:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.nombre} {alumno.apePaterno} {alumno.apeMaterno}</span>
-                    </p>
+                    <div className="flex justify-start items-start">
+                        <p>Nombre del prestador(a) de Servicio Social:</p>
+                        <p className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">{alumno.nombre} {alumno.apePaterno} {alumno.apeMaterno}</p>
+                    </div>
                 </div>
                 <div className="col-span-3">
-                    <p className='flex'>Número de matrícula:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.matricula}</span>
-                    </p>
+                    <div className="flex justify-start items-start">
+                        <p>Número de matrícula:</p>
+                        <p className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">{alumno.matricula}</p>
+                    </div>
                 </div>
                 <div className="col-span-3">
-                    <p className='flex'>Domicilio:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.domicilio}</span>
-                    </p>
+                    <div className="flex justify-start items-start">
+                        <p>Domicilio:</p>
+                        <p className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">{alumno.domicilio}</p>
+                    </div>
                 </div>
                 <div className="col-span-2">
-                    <p className='flex'>Teléfono:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.telefono}</span>
-                    </p>
+                    <div className="flex justify-start items-start">
+                        <p>Telefono:</p>
+                        <p className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">{alumno.telefono}</p>
+                    </div>
                 </div>
                 <div className="col-span-2">
-                    <p className='flex'>Carrera:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.carrera}</span>
-                    </p>
+                    <div className="flex justify-start items-start">
+                        <p>Carrera:</p>
+                        <p className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">{alumno.carrera}</p>
+                    </div>
                 </div>
                 <div className="col-span-2">
-                    <p className='flex'>Semestre:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{semesterToText(alumno.semestre)}</span>
-                    </p>
+                    <div className="flex justify-start items-start">
+                        <p>Semestre:</p>
+                        <p className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">{semesterToText(alumno.semestre)}</p>
+                    </div>
                 </div>
                 <div className="col-span-6">
-                    <p className='flex'>Dependencia u organismo:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.dependencias.nombrePrograma}</span>
-                    </p>
+                    <div className="flex justify-start items-start">
+                        <p>Dependencia u organismo:</p>
+                        <p className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">{alumno.dependencias.nombrePrograma}</p>
+                    </div>
                 </div>
                 <div className="col-span-6">
-                    <p className='flex'>Domicilio de la dependencia:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.dependencias.domicilio}</span>
-                    </p>
+                    <div className="flex justify-start items-start">
+                        <p>Domicilio de la dependencia:</p>
+                        <p className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">{alumno.dependencias.domicilio}</p>
+                    </div>
                 </div>
                 <div className="col-span-6">
-                    <p className='flex'>Responsable del programa:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2">{alumno.dependencias.responsableArea}</span>
-                    </p>
+                    <div className="flex justify-start items-start">
+                        <p>Responsable del programa:</p>
+                        <p className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">{alumno.dependencias.responsableArea}</p>
+                    </div>
                 </div>
                 <div className="col-span-3">
-                    <p className='flex'>Fecha de inicio:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2"></span>
-                    </p>
+                    <div className="flex justify-start items-start">
+                        <p>Fecha de inicio:</p>
+                        <p className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">11 de junio</p>
+                    </div>
                 </div>
                 <div className="col-span-3">
-                    <p className='flex'>Fecha de terminación:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2"></span>
-                    </p>
+                    <div className="flex justify-start items-start">
+                        <p>Fecha de terminación:</p>
+                        <p className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">12 de junio</p>
+                    </div>
                 </div>
                 <div className="col-span-6 mt-4">
                     <p className="text-center text-[13px]">
@@ -113,14 +126,17 @@ export const CartaCompromisoDeServicioSocial = ({ alumno }) => {
                         enterado (a) de la cancelación respectiva, la cual procederá automáticamente.
                     </p>
                 </div>
-                <div className="col-span-6 mt-6">
-                    <p className='flex'>En la ciudad de El Saucillo, Huichapan, Hidalgo a
-                        <span className="border-b-1 border-black bg-white ml-2 px-2">{day}</span>
-                        del mes
-                        <span className="border-b-1 border-black bg-white ml-2 px-2">{month}</span>
-                        de
-                        <span className="border-b-1 border-black bg-white ml-2 px-2">{year}</span>.
-                    </p>
+                <div className="col-span-6 mt-4">
+                    <div className='flex'>
+                        <p>En la ciudad de El Saucillo, Huichapan, Hidalgo a</p>
+                        <div className="flex justify-start items-start">
+                            <p className="border-b-1 border-black bg-white ml-2 px-2 pb-1">{day}</p>
+                            <p>del mes</p>
+                            <p className="border-b-1 border-black bg-white ml-2 px-2 pb-1">{month}</p>
+                            <p>de</p>
+                            <p className="border-b-1 border-black bg-white ml-2 px-2 pb-1">{year}</p>
+                        </div>
+                    </div>
                 </div>
                 <div className="col-span-6 mt-4">
                     <p className='uppercase text-center'>Conformidad</p>

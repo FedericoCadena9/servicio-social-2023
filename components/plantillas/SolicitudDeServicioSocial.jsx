@@ -5,13 +5,13 @@ export const SolicitudDeServicioSocial = ({ alumno }) => {
   function semesterToText(semestre) {
     switch (semestre) {
       case 7:
-        return 'séptimo';
+        return 'Séptimo';
       case 8:
-        return 'octavo';
+        return 'Octavo';
       case 9:
-        return 'noveno';
+        return 'Noveno';
       case 10:
-        return 'décimo';
+        return 'Décimo';
       default:
         return semestre.toString();
     }
@@ -19,7 +19,7 @@ export const SolicitudDeServicioSocial = ({ alumno }) => {
 
   const currentDate = new Date();
   const day = currentDate.getDate();
-  const month = currentDate.getMonth() + 1;
+  const month = currentDate.getMonth();
   const year = currentDate.getFullYear();
 
   const options = [
@@ -48,7 +48,7 @@ export const SolicitudDeServicioSocial = ({ alumno }) => {
 
 
   return (
-    <div className="w-[215.9mm] h-[279.4mm] bg-white border-1 border-gray-200 box-border m-auto p-20">
+    <div className="w-[215.9mm] h-[279.4mm] bg-white border-1 border-gray-200 box-border m-auto px-20 py-10">
       <div className="flex items-center justify-between">
         <Image
           src="/assets/img/iteshuLogo.png"
@@ -65,7 +65,7 @@ export const SolicitudDeServicioSocial = ({ alumno }) => {
         />
       </div>
 
-      <div className='mt-4 text-center space-y-6'>
+      <div className='mt-4 text-center space-y-4'>
         <h1 className="uppercase font-bold text-lg">Solicitud de servicio social</h1>
         <p className='font-semibold text-sm'>Departamento de Residencias profesionales y Servicio Social</p>
       </div>
@@ -76,24 +76,31 @@ export const SolicitudDeServicioSocial = ({ alumno }) => {
           <div className="space-y-4">
             <h2 className="font-semibold">Datos personales:</h2>
             <div className='flex items-center justify-between'>
-              <p>Nombre completo:
-                <span className="border-b-1 border-black pr-10 mx-2 bg-white">{alumno.nombre} {alumno.apePaterno} {alumno.apeMaterno}</span>
-              </p>
-              <p>Sexo:
-                <span className="border-b-1 border-black pr-6 mx-2 bg-white">{alumno.sexo}</span>
-              </p>
+              <div className="flex justify-start items-start">
+                <p>Nombre completo:</p>
+                <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1">{alumno.nombre} {alumno.apePaterno} {alumno.apeMaterno}</p>
+              </div>
+              <div className="flex justify-start items-start">
+                <p>Sexo:</p>
+                <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1">
+                  {alumno.genero === 'M' ? 'Masculino' : alumno.genero === 'F' ? 'Femenino' : ''}
+                </p>
+              </div>
             </div>
             <div className='flex items-center justify-between'>
-              <p>Teléfono:
-                <span className="border-b-1 border-black mx-2 bg-white">341 123 4567</span>
-              </p>
-              <p>Domicilio:
-                <span className="border-b-1 border-black pr-2 mx-2 bg-white">Calle 1 #123 Col. Centro, Ciudad Guzman, Jalisco</span>
-              </p>
+              <div className="flex justify-start items-start">
+                <p>Teléfono:</p>
+                <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1">{alumno.telefono}</p>
+              </div>
+              <div className="flex justify-start items-start">
+                <p>Domicilio:</p>
+                <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1">{alumno.domicilio}</p>
+              </div>
             </div>
-            <p>Correo electrónico:
-              <span className="border-b-1 border-black pr-20 mx-2 bg-white">a19021089@iteshu.edu.mx</span>
-            </p>
+            <div className="flex justify-start items-start">
+              <p>Correo electrónico:</p>
+              <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1">{`a${alumno.matricula}@iteshu.edu.mx`}</p>
+            </div>
           </div>
         </div>
 
@@ -102,20 +109,24 @@ export const SolicitudDeServicioSocial = ({ alumno }) => {
           <div className="space-y-4">
             <h2 className="font-semibold">Escolaridad:</h2>
             <div className='flex items-center justify-between'>
-              <p>Matricula:
-                <span className="border-b-1 border-black pr-10 mx-2 bg-white">19021089</span>
-              </p>
-              <p>Carrera:
-                <span className="border-b-1 border-black pr-10 mx-2 bg-white">Ingeniería en Sistemas Computacionales</span>
-              </p>
+              <div className="flex justify-start items-start">
+                <p>Matricula:</p>
+                <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1">{alumno.matricula}</p>
+              </div>
+              <div className="flex justify-start items-start">
+                <p>Carrera:</p>
+                <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1 !capitalize">{alumno.carrera}</p>
+              </div>
             </div>
             <div className='flex items-center justify-between'>
-              <p>Periodo:
-                <span className="border-b-1 border-black pr-10 mx-2 bg-white">Enero - Junio 2021</span>
-              </p>
-              <p>Semestre:
-                <span className="border-b-1 border-black pr-28 mx-2 bg-white">Septimo</span>
-              </p>
+              <div className="flex justify-start items-start">
+                <p>Periodo:</p>
+                <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1 !capitalize">Enero - Junio 2021</p>
+              </div>
+              <div className="flex justify-start items-start">
+                <p>Semestre:</p>
+                <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1 !capitalize">{semesterToText(alumno.semestre)}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -123,26 +134,33 @@ export const SolicitudDeServicioSocial = ({ alumno }) => {
         {/* Datos del Programa e Servicio Social (Para uso exclusivo de la Oficina de Servicio Social) */}
         <div>
           <div className="space-y-4">
-            <h2 className="font-semibold">Datos del Programa e Servicio Social (Para uso exclusivo de la Oficina de Servicio Social):</h2>
-            <p>Dependencia oficial:
-              <span className="border-b-1 border-black pr-20 mx-2 bg-white">Instituto Tecnologico Superior de Huichapan</span>
-            </p>
-            <p>Titular de la dependencia:
-              <span className="border-b-1 border-black pr-40 mx-2 bg-white">Luis Enrique Camargo Cruz</span>
-            </p>
-            <p>Nombre del programa:
-              <span className="border-b-1 border-black pr-20 mx-2 bg-white">Sistema de control de inventarios</span>
-            </p>
+            <h2 className="font-semibold">Datos del Programa de Servicio Social (Para uso exclusivo de la Oficina de Servicio Social):</h2>
+            <div className="flex justify-start items-start">
+              <p>Dependencia oficial:</p>
+              <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1">{alumno.dependencias.institucion}</p>
+            </div>
+            <div className="flex justify-start items-start">
+              <p>Titular de la dependencia:</p>
+              <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1">{alumno.dependencias.directorGeneral}</p>
+            </div>
+            <div className="flex justify-start items-start">
+              <p>Nombre del programa:</p>
+              <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1">{alumno.dependencias.nombrePrograma}</p>
+            </div>
+
             <div className='flex items-center gap-2'>
-              <p>Modalidad:
-                <span className="border-b-1 border-black mx-2 bg-white">Escolarizada</span>
-              </p>
-              <p>Fecha de inicio:
-                <span className="border-b-1 border-black mx-2 bg-white">01/01/2021</span>
-              </p>
-              <p>Fecha de terminación:
-                <span className="border-b-1 border-black mx-2 bg-white">01/01/2021</span>
-              </p>
+              <div className="flex justify-start items-start">
+                <p>Modalidad:</p>
+                <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1">{alumno.modalidad}</p>
+              </div>
+              <div className="flex justify-start items-start">
+                <p>Fecha de inicio:</p>
+                <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1">{alumno.fechaInicio}</p>
+              </div>
+              <div className="flex justify-start items-start">
+                <p>Fecha de terminación:</p>
+                <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1">{alumno.fechaFin}</p>
+              </div>
             </div>
           </div>
         </div>
