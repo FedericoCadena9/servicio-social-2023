@@ -10,8 +10,8 @@ export async function POST(req) {
       await req.json();
     const data = await resend.emails.send({
       from: "Departamento de Servicio Social <onboarding@resend.dev>",
-      // to: [`a${matricula}@iteshu.edu.mx`],
-      to: ["federicocadena091@gmail.com"],
+      to: [`a${matricula}@iteshu.edu.mx`],
+      // to: ["federicocadena091@gmail.com"],
       subject: `${matricula} - Comienzo del Periodo de Servicio Social y Asignación de Dependencias`,
       react: EmailTemplate({ matricula, nombre, apePaterno, apeMaterno }),
       attachments,
