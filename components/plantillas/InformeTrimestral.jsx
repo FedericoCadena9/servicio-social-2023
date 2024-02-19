@@ -1,6 +1,36 @@
+'use client'
 import Image from 'next/image';
+import { clientSupabase as supabase } from '../../utils/supabase';
+import { useEffect, useState } from "react";
 
 export const InformeTrimestral = ({ alumno }) => {
+
+    const [fechaInicio, setFechaInicio] = useState('');
+    const [fechaFin, setFechaFin] = useState('');
+
+    useEffect(() => {
+        // Función para obtener los periodos de la base de datos de Supabase
+        async function getPeriodos() {
+            const { data, error } = await supabase
+                .from('periodos_servicio_social')
+                .select('*')
+                .single();
+
+            if (error) {
+                console.error('Error al obtener los periodos:', error);
+            } else if (data) {
+                setFechaInicio(data.fecha_inicio);
+                setFechaFin(data.fecha_fin);
+            }
+        }
+
+        getPeriodos();
+    }, []);
+
+    //Periodos
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const fechaInicioFormat = new Date(fechaInicio).toLocaleDateString('es-MX', options);
+    const fechaFinFormat = new Date(fechaFin).toLocaleDateString('es-MX', options);
 
     const currentDate = new Date();
     const day = currentDate.getDate();
@@ -12,7 +42,6 @@ export const InformeTrimestral = ({ alumno }) => {
 
     // Usar el número del mes para obtener el nombre
     const monthName = months[month];
-    const monthNameSixMonthsLater = months[monthSixMonthsLater];
 
 
     return (
@@ -58,7 +87,9 @@ export const InformeTrimestral = ({ alumno }) => {
                     </div>
                     <div className="flex justify-start items-start">
                         <p className='font-semibold'>Periodo de:</p>
-                        <p className="pr-10 mx-2 bg-white pb-1">{day} de {monthName} de {year} al {day} de {monthNameSixMonthsLater} de {year}</p>
+                        <p className="pr-10 mx-2 bg-white pb-1">
+                            {fechaInicioFormat} al {fechaFinFormat}
+                        </p>
                     </div>
                     <div className="flex justify-start items-start">
                         <p className='font-semibold'>Programa:</p>

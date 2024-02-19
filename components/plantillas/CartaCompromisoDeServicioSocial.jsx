@@ -1,6 +1,30 @@
+'use client'
 import Image from 'next/image';
+import { clientSupabase as supabase } from '../../utils/supabase';
+import { useEffect, useState } from "react";
 
 export const CartaCompromisoDeServicioSocial = ({ alumno }) => {
+    const [fechaInicio, setFechaInicio] = useState('');
+    const [fechaFin, setFechaFin] = useState('');
+
+    useEffect(() => {
+        // Función para obtener los periodos de la base de datos de Supabase
+        async function getPeriodos() {
+            const { data, error } = await supabase
+                .from('periodos_servicio_social')
+                .select('*')
+                .single();
+
+            if (error) {
+                console.error('Error al obtener los periodos:', error);
+            } else if (data) {
+                setFechaInicio(data.fecha_inicio);
+                setFechaFin(data.fecha_fin);
+            }
+        }
+
+        getPeriodos();
+    }, []);
 
     function semesterToText(semestre) {
         switch (semestre) {
@@ -23,6 +47,11 @@ export const CartaCompromisoDeServicioSocial = ({ alumno }) => {
     const day = currentDate.getDate();
     const month = currentDate.getMonth() + 1;
     const year = currentDate.getFullYear();
+
+    //Periodos
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const fechaInicioFormat = new Date(fechaInicio).toLocaleDateString('es-MX', options);
+    const fechaFinFormat = new Date(fechaFin).toLocaleDateString('es-MX', options);
 
     return (
         <div className="w-[215.9mm] h-[279.4mm] bg-white border-1 border-gray-200 box-border m-auto px-20 py-10">
@@ -108,13 +137,13 @@ export const CartaCompromisoDeServicioSocial = ({ alumno }) => {
                 <div className="col-span-3">
                     <div className="flex justify-start items-start">
                         <p>Fecha de inicio:</p>
-                        <p className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">11 de junio</p>
+                        <p className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">{fechaInicioFormat}</p>
                     </div>
                 </div>
                 <div className="col-span-3">
                     <div className="flex justify-start items-start">
                         <p>Fecha de terminación:</p>
-                        <p className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">12 de junio</p>
+                        <p className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">{fechaFinFormat}</p>
                     </div>
                 </div>
                 <div className="col-span-6 mt-4">

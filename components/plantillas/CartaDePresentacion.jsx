@@ -1,6 +1,31 @@
+'use client'
 import Image from 'next/image';
+import { clientSupabase as supabase } from '../../utils/supabase';
+import { useEffect, useState } from "react";
 
 export const CartaDePresentacion = ({ alumno }) => {
+
+    const [fechaInicio, setFechaInicio] = useState('');
+    const [fechaFin, setFechaFin] = useState('');
+
+    useEffect(() => {
+        // Función para obtener los periodos de la base de datos de Supabase
+        async function getPeriodos() {
+            const { data, error } = await supabase
+                .from('periodos_servicio_social')
+                .select('*')
+                .single();
+
+            if (error) {
+                console.error('Error al obtener los periodos:', error);
+            } else if (data) {
+                setFechaInicio(data.fecha_inicio);
+                setFechaFin(data.fecha_fin);
+            }
+        }
+
+        getPeriodos();
+    }, []);
 
     const currentDate = new Date();
     const day = currentDate.getDate();
@@ -8,6 +33,11 @@ export const CartaDePresentacion = ({ alumno }) => {
     const year = currentDate.getFullYear();
     const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
         "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+    //Periodos
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const fechaInicioFormat = new Date(fechaInicio).toLocaleDateString('es-MX', options);
+    const fechaFinFormat = new Date(fechaFin).toLocaleDateString('es-MX', options);
 
     // Usar el número del mes para obtener el nombre
     const monthName = months[month];
@@ -76,8 +106,8 @@ export const CartaDePresentacion = ({ alumno }) => {
                         de la carrera <span className="underline underline-offset-4">{alumno.carrera}</span>,
                         quien realizara Servicio Social en el <span className="underline underline-offset-4">{alumno.dependencias.institucion}</span>,
                         específicamente en el programa “<span className="underline underline-offset-4">{alumno.dependencias.nombrePrograma}</span>” con número de clave {' '}
-                        <span className="underline underline-offset-4">{alumno.dependencias?.clavePrograma}</span>, durante el período comprendido del <span className='font-semibold'>24 de julio de 2023 al
-                            24 de enero de 2024,</span> cubriendo un total de 500 hrs, no menor a 6 meses y no
+                        <span className="underline underline-offset-4">{alumno.dependencias?.clavePrograma}</span>, durante el período comprendido del <span className='font-semibold'>{fechaInicioFormat} al
+                            {fechaFinFormat},</span> cubriendo un total de 500 hrs, no menor a 6 meses y no
                         mayor a 1 año.
                     </p>
                     <p>

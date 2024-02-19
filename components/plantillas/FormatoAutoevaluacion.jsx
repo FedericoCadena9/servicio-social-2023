@@ -1,6 +1,36 @@
+'use client'
 import Image from 'next/image';
+import { clientSupabase as supabase } from '../../utils/supabase';
+import { useEffect, useState } from "react";
 
 export const FormatoAutoevaluacion = ({ alumno }) => {
+    const [fechaInicio, setFechaInicio] = useState('');
+    const [fechaFin, setFechaFin] = useState('');
+
+    useEffect(() => {
+        // Función para obtener los periodos de la base de datos de Supabase
+        async function getPeriodos() {
+            const { data, error } = await supabase
+                .from('periodos_servicio_social')
+                .select('*')
+                .single();
+
+            if (error) {
+                console.error('Error al obtener los periodos:', error);
+            } else if (data) {
+                setFechaInicio(data.fecha_inicio);
+                setFechaFin(data.fecha_fin);
+            }
+        }
+
+        getPeriodos();
+    }, []);
+
+    //Periodos
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const fechaInicioFormat = new Date(fechaInicio).toLocaleDateString('es-MX', options);
+    const fechaFinFormat = new Date(fechaFin).toLocaleDateString('es-MX', options);
+
     return (
         <div className="w-[215.9mm] h-[279.4mm] bg-white border-1 border-gray-200 box-border m-auto px-10 py-10">
             <div className="flex items-center justify-between">
@@ -35,7 +65,9 @@ export const FormatoAutoevaluacion = ({ alumno }) => {
                 </div>
                 <div className="flex justify-start items-start">
                     <p>Periodo de realización:
-                        <span className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">-</span>
+                        <span className="border-b-1 border-black flex-grow bg-white ml-2 pb-1">
+                            {fechaInicioFormat} al {fechaFinFormat}
+                        </span>
                     </p>
                 </div>
                 <div className="flex justify-start items-start">
