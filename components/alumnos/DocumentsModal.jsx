@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "../../utils/supabase";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Divider, Select, SelectItem, Chip } from "@nextui-org/react";
 import { CartaCompromisoDeServicioSocial } from "../plantillas/CartaCompromisoDeServicioSocial";
 import { CartaDeAceptacion } from '../plantillas/CartaDeAceptacion'
@@ -7,6 +8,7 @@ import { FormatoAutoevaluacion } from '../plantillas/FormatoAutoevaluacion'
 import { FormatoEvaluacion } from '../plantillas/FormatoEvaluacion'
 import { InformeTrimestral } from '../plantillas/InformeTrimestral'
 import { SolicitudDeServicioSocial } from "../plantillas/SolicitudDeServicioSocial";
+import toast, { Toaster } from 'react-hot-toast';
 
 import html2pdf from 'html2pdf.js';
 import ReactDOMServer from 'react-dom/server';
@@ -22,6 +24,32 @@ const templates = [
 ];
 
 export default function DocumentsModal({ isOpen, onOpenChange, onClose, selectedKeys, selectedStudents }) {
+    const [fechaInicio, setFechaInicio] = useState('');
+    const [fechaFin, setFechaFin] = useState('');
+
+    useEffect(() => {
+        // Función para obtener los periodos de la base de datos de Supabase
+        async function getPeriodos() {
+            const { data, error } = await supabase
+                .from('periodos_servicio_social')
+                .select('*')
+                .single();
+
+            if (error) {
+                console.error('Error al obtener los periodos:', error);
+            } else if (data) {
+                setFechaInicio(data.fecha_inicio);
+                setFechaFin(data.fecha_fin);
+            }
+        }
+
+        getPeriodos();
+    }, []);
+
+    //Periodos
+    const optionsDate = { year: 'numeric', month: 'long', day: 'numeric' };
+    const fechaInicioFormat = new Date(fechaInicio).toLocaleDateString('es-MX', optionsDate);
+    const fechaFinFormat = new Date(fechaFin).toLocaleDateString('es-MX', optionsDate);
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -57,7 +85,7 @@ export default function DocumentsModal({ isOpen, onOpenChange, onClose, selected
             console.log(student);
             const attachments = [];
             for (let Document of templates) {
-                const element = <Document alumno={student} />;
+                const element = <Document alumno={student} fechaInicio={fechaInicioFormat} fechaFin={fechaFinFormat} />;
                 const pdfBase64 = await generatePdf(element);
                 const attachment = {
                     filename: `${student.matricula}_${Document.name}.pdf`,
@@ -82,11 +110,17 @@ export default function DocumentsModal({ isOpen, onOpenChange, onClose, selected
         });
 
         const data = await response.json();
-        console.log(data);
+        if (data.status === 200) {
+            toast.success('Correo enviado con éxito.');
+            onClose();
+        } else {
+            toast.error('Ocurrió un error al enviar el correo.');
+        }
     };
 
     return (
         <>
+            <Toaster position="bottom-right" />
             <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                     <ModalHeader>Generar documento</ModalHeader>
@@ -98,7 +132,7 @@ export default function DocumentsModal({ isOpen, onOpenChange, onClose, selected
                                     <p className="text-gray-800">
                                         Nombre: {' '}
                                         <span className="text-gray-500">
-                                        {`${student.nombre} ${student.apePaterno} ${student.apeMaterno} - ${student.matricula}`}
+                                            {`${student.nombre} ${student.apePaterno} ${student.apeMaterno} - ${student.matricula}`}
                                         </span>
                                     </p>
                                 </li>

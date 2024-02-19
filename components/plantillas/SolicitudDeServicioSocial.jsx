@@ -1,37 +1,6 @@
-'use client'
 import Image from 'next/image';
-import { clientSupabase as supabase } from '../../utils/supabase';
-import { useEffect, useState } from "react";
 
-export const SolicitudDeServicioSocial = ({ alumno }) => {
-
-
-  const [fechaInicio, setFechaInicio] = useState('');
-  const [fechaFin, setFechaFin] = useState('');
-
-  useEffect(() => {
-    // Función para obtener los periodos de la base de datos de Supabase
-    async function getPeriodos() {
-      const { data, error } = await supabase
-        .from('periodos_servicio_social')
-        .select('*')
-        .single();
-
-      if (error) {
-        console.error('Error al obtener los periodos:', error);
-      } else if (data) {
-        setFechaInicio(data.fecha_inicio);
-        setFechaFin(data.fecha_fin);
-      }
-    }
-
-    getPeriodos();
-  }, []);
-
-  //Periodos
-  const optionsDate = { year: 'numeric', month: 'long', day: 'numeric' };
-  const fechaInicioFormat = new Date(fechaInicio).toLocaleDateString('es-MX', optionsDate);
-  const fechaFinFormat = new Date(fechaFin).toLocaleDateString('es-MX', optionsDate);
+export const SolicitudDeServicioSocial = ({ alumno, fechaInicio, fechaFin }) => {
 
   function semesterToText(semestre) {
     switch (semestre) {
@@ -153,7 +122,7 @@ export const SolicitudDeServicioSocial = ({ alumno }) => {
               <div className="flex justify-start items-start">
                 <p>Periodo:</p>
                 <p className="border-b-1 border-black pr-10 mx-2 bg-white pb-1 !capitalize">
-                  {fechaInicioFormat} al {fechaFinFormat}
+                  {fechaInicio} al {fechaFin}
                 </p>
               </div>
               <div className="flex justify-start items-start">
