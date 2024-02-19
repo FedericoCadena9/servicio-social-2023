@@ -8,8 +8,8 @@ export async function POST(req) {
   try {
     const { matricula, nombre, apePaterno, apeMaterno, attachments } = await req.json();
     const data = await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
-      to: ["federicocadena091@gmail.com"],
+      from: "Departamento de Servicio Social <serviciosocial@iteshu.edu.mx>",
+      to: [`a${matricula}@iteshu.edu.mx`],
       subject: `${matricula} - Comienzo del Periodo de Servicio Social y Asignación de Dependencias`,
       react: EmailTemplate({ matricula, nombre, apePaterno, apeMaterno }),
       attachments,
