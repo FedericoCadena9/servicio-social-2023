@@ -17,7 +17,7 @@ import {
   ProgressCircle,
 } from "@tremor/react";
 import { Skeleton } from "@nextui-org/react";
-
+import clsx from 'clsx'
 import { supabase } from '../utils/supabase';
 
 
@@ -81,6 +81,14 @@ export const Charts = () => {
     { name: "Energias Renovables", value: alumnos.totalEnergiasRenovables },
     { name: "Gastronomia", value: alumnos.totalGastronomia },
     { name: "Innovacion Agricola Sustentable", value: alumnos.totalInnovacionAgricolaSustentable },
+  ];
+
+  const alumnosSemestres = [
+    { name: "Septimo", value: alumnos.totalSeptimo },
+    { name: "Octavo", value: alumnos.totalOctavo },
+    { name: "Noveno", value: alumnos.totalNoveno },
+    { name: "Decimo", value: alumnos.totalDecimo },
+    { name: "Onceavo", value: alumnos.totalOnceavo },
   ];
 
   const valueFormatter = (number) => `${Intl.NumberFormat("us").format(number).toString()}`;
@@ -239,51 +247,35 @@ export const Charts = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* <div>
-
-      <div>
-        <Card className="max-w-md mx-auto">
-          <Flex className="space-x-8" justifyContent="start" alignItems="center">
-            <Title>Alumnos</Title>
-          </Flex>
-          <Legend categories={cities.map((city) => city.name)} className="mt-6" />
-          <DonutChart
-            data={cities}
-            category="sales"
-            index="name"
-            valueFormatter={valueFormatter}
-            className="mt-6"
-          />
-        </Card>
-      </div> */}
-
       <Grid numItemsSm={2} numItemsLg={3} className="gap-6">
         {!alumnosLoaded ? (
-          <Card className="space-y-5 p-4" radius="lg">
-            <Skeleton className="w-32 rounded-lg">
-              <div className="h-3 rounded-lg bg-default-300"></div>
-            </Skeleton>
-            <Skeleton className="w-20 rounded-lg">
-              <div className="h-8 rounded-lg bg-default-300"></div>
-            </Skeleton>
-            <div className="space-y-3">
-              <Skeleton className="w-full rounded-lg">
-                <div className="h-3 rounded-lg bg-default-200"></div>
+          metrics.map((item, index) => (
+            <Card key={index} className="space-y-5 p-4" radius="lg">
+              <Skeleton className="w-32 rounded-lg">
+                <div className="h-3 rounded-lg bg-default-300"></div>
               </Skeleton>
+              <Skeleton className="w-20 rounded-lg">
+                <div className="h-8 rounded-lg bg-default-300"></div>
+              </Skeleton>
+              <div className="space-y-3">
+                <Skeleton className="w-full rounded-lg">
+                  <div className="h-3 rounded-lg bg-default-200"></div>
+                </Skeleton>
 
-              <div className="flex flex-wrap gap-3 pt-2">
-                <Skeleton className="w-2/5 rounded-lg">
-                  <div className="h-3 w-2/5 rounded-lg bg-default-300"></div>
-                </Skeleton>
-                <Skeleton className="w-2/5 rounded-lg">
-                  <div className="h-3 w-2/5 rounded-lg bg-default-300"></div>
-                </Skeleton>
-                <Skeleton className="w-2/5 rounded-lg">
-                  <div className="h-3 w-2/5 rounded-lg bg-default-300"></div>
-                </Skeleton>
+                <div className="flex flex-wrap gap-3 pt-2">
+                  <Skeleton className="w-2/5 rounded-lg">
+                    <div className="h-3 w-2/5 rounded-lg bg-default-300"></div>
+                  </Skeleton>
+                  <Skeleton className="w-2/5 rounded-lg">
+                    <div className="h-3 w-2/5 rounded-lg bg-default-300"></div>
+                  </Skeleton>
+                  <Skeleton className="w-2/5 rounded-lg">
+                    <div className="h-3 w-2/5 rounded-lg bg-default-300"></div>
+                  </Skeleton>
+                </div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          ))
         ) : (
           metrics.map((item) => (
             <Card key={item.title}>
@@ -307,11 +299,11 @@ export const Charts = () => {
       <Grid numItemsMd={2} className="mt-6 gap-6">
         <Card>
           <Title>Alumnos por género</Title>
-          <div className="flex flex-col items-center justify-center space-x-6 mt-12">
+          <div className="flex flex-col items-center justify-center mt-12">
             <ProgressCircle value={Math.round((alumnos.totalMujeres / alumnos.alumnosTotales) * 100)} radius={120} color="fuchsia">
               <ProgressCircle value={Math.round((alumnos.totalMujeres / alumnos.alumnosTotales) * 100)} radius={104} color="blue" />
             </ProgressCircle>
-            <div className="space-y-1 mt-4 flex items-center justify-between w-96">
+            <div className="mt-8 flex items-center justify-between w-full">
               <div>
                 <h4 className="text-sm text-gray-500">Mujeres</h4>
                 <p className="font-medium text-fuchsia-600 text-3xl">{alumnos.totalMujeres}</p>
@@ -341,18 +333,41 @@ export const Charts = () => {
             className="mt-2"
           />
         </Card>
-        {/* <Card>
-          <div className="h-44" />
-        </Card>
         <Card>
-          <div className="h-44" />
+        <Title>Alumnos por Semestre</Title>
+          <div className="p-4 flex items-center space-x-6">
+            <DonutChart
+              data={alumnosSemestres}
+              index="name"
+              category="value"
+              variant="pie"
+              colors={["indigo", "violet", "fuchsia", "green", "yellow"]}
+              className="h-60 w-full"
+            />
+            <List className="w-2/3">
+              {alumnosSemestres.map((alumno) => (
+                <ListItem key={alumno.name} className="space-x-2">
+                  <div className="flex items-center space-x-2 truncate">
+                    <span
+                      className={clsx(
+                        alumno.name === "Septimo" ? "bg-indigo-500" :
+                          alumno.name === "Octavo" ? "bg-violet-500" :
+                            alumno.name === "Noveno" ? "bg-fuchsia-500" :
+                              alumno.name === "Decimo" ? "bg-green-500" :
+                                alumno.name === "Onceavo" ? "bg-yellow-500" :
+                                    "",
+                        "h-2.5 w-2.5 rounded-sm flex-shrink-0"
+                      )}
+                    />
+
+                    <span className="truncate">{alumno.name}</span>
+                  </div>
+                  <span>{alumno.value}</span>
+                </ListItem>
+              ))}
+            </List>
+          </div>
         </Card>
-        <Card>
-          <div className="h-44" />
-        </Card>
-        <Card>
-          <div className="h-44" />
-        </Card> */}
       </Grid>
     </div>
   )

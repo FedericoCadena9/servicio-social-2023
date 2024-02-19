@@ -1,12 +1,23 @@
 import { useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Divider, Select, SelectItem, Chip } from "@nextui-org/react";
 import { CartaCompromisoDeServicioSocial } from "../plantillas/CartaCompromisoDeServicioSocial";
+import { CartaDeAceptacion } from '../plantillas/CartaDeAceptacion'
+import { CartaDePresentacion } from '../plantillas/CartaDePresentacion'
+import { FormatoAutoevaluacion } from '../plantillas/FormatoAutoevaluacion'
+import { FormatoEvaluacion } from '../plantillas/FormatoEvaluacion'
+import { InformeTrimestral } from '../plantillas/InformeTrimestral'
 import { SolicitudDeServicioSocial } from "../plantillas/SolicitudDeServicioSocial";
+
 import html2pdf from 'html2pdf.js';
 import ReactDOMServer from 'react-dom/server';
 
 const templates = [
     CartaCompromisoDeServicioSocial,
+    CartaDeAceptacion,
+    CartaDePresentacion,
+    FormatoAutoevaluacion,
+    FormatoEvaluacion,
+    InformeTrimestral,
     SolicitudDeServicioSocial
 ];
 
@@ -35,7 +46,7 @@ export default function DocumentsModal({ isOpen, onOpenChange, onClose, selected
         };
 
         const pdfBlob = await html2pdf().from(htmlString).set(pdfOptions).outputPdf('blob');
-        const pdfBase64 = await blobToBase64(pdfBlob); 
+        const pdfBase64 = await blobToBase64(pdfBlob);
         return pdfBase64.split(',')[1];
     };
 
@@ -43,6 +54,7 @@ export default function DocumentsModal({ isOpen, onOpenChange, onClose, selected
         setIsLoading(true);
 
         for (let student of selectedStudents) {
+            console.log(student);
             const attachments = [];
             for (let Document of templates) {
                 const element = <Document alumno={student} />;
@@ -79,18 +91,23 @@ export default function DocumentsModal({ isOpen, onOpenChange, onClose, selected
                 <ModalContent>
                     <ModalHeader>Generar documento</ModalHeader>
                     <ModalBody>
-                        <p>{`Has seleccionado ${selectedKeys} alumnos.`}</p>
+                        <p className="text-gray-800">{`Has seleccionado ${selectedKeys} alumnos.`}</p>
                         <ul>
                             {selectedStudents.map((student, index) => (
-                                <li key={index}>
-                                    {`Nombre: ${student.nombre}, Matrícula: ${student.matricula}, Estado: ${student.status}`}
+                                <li key={index} className="flex justify-between items-center">
+                                    <p className="text-gray-800">
+                                        Nombre: {' '}
+                                        <span className="text-gray-500">
+                                        {`${student.nombre} ${student.apePaterno} ${student.apeMaterno} - ${student.matricula}`}
+                                        </span>
+                                    </p>
                                 </li>
                             ))}
                         </ul>
                     </ModalBody>
                     <ModalFooter>
                         <Button onPress={onClose}>Cancelar</Button>
-                        <Button onPress={handleConfirm} color="primary" isLoading={isLoading}> Confirmar</Button>
+                        <Button onPress={handleConfirm} color="primary" className="bg-emerald-500" isLoading={isLoading}> Confirmar</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

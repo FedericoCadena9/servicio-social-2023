@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Divider, Select, SelectItem, Chip } from "@nextui-org/react";
 import { supabase } from "../../utils/supabase";
 import { ArrowPathRoundedSquareIcon } from "@heroicons/react/20/solid";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function DependenciesModal({ isOpen, onOpenChange, selectedStudents = [] }) {
 
@@ -22,15 +23,7 @@ export default function DependenciesModal({ isOpen, onOpenChange, selectedStuden
             setDependencias(data);
         };
 
-        const getDependencieStudent = async () => {
-            if (id) {
-                let { data: alumnos } = await supabase.from('alumnos').select('dependencias(*)').eq('id', id);
-                setSelectedDependency(alumnos[0].dependencias);
-            }
-        }
-
         getDependencies();
-        getDependencieStudent();
     }, [isOpen, selectedStudents]);
 
     const handleSave = async () => {
@@ -43,14 +36,21 @@ export default function DependenciesModal({ isOpen, onOpenChange, selectedStuden
 
             if (error) {
                 console.error("Error updating student's dependency:", error);
+                toast.error('Error al actualizar la dependencia del estudiante.');
             } else if (data) {
                 onOpenChange(false);
+                toast.success('Dependencia actualizada con éxito.');
             }
+        } else {
+            toast('Debe seleccionar una dependencia.', {
+                icon: '⚠️',
+            }); 
         }
     };
 
     return (
         <>
+            <Toaster position="bottom-right" />
             <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="xl">
                 <ModalContent>
                     {(onClose) => (
@@ -80,7 +80,6 @@ export default function DependenciesModal({ isOpen, onOpenChange, selectedStuden
                                     placeholder="Seleccionar una dependencia"
                                     size="sm"
                                     className="max-w-full"
-                                    selectedKeys={[selectedDependency?.id]}
                                     onChange={(event) => {
                                         setSelectedDependency(event.target.value);
                                     }}
