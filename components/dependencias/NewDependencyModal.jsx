@@ -272,7 +272,7 @@ export default function NewDependencyModal({ isOpen, onOpenChange, editData }) {
                                         value={formData.domicilio}
                                         onChange={handleInputChange}
                                     />
-                                    <div className="text-gray-500 flex flex-col gap-2">
+                                    {/* <div className="text-gray-500 flex flex-col gap-2">
                                         <span>Dependencia vigente</span>
                                         <label {...getBaseProps()}>
                                             <VisuallyHidden>
@@ -293,7 +293,7 @@ export default function NewDependencyModal({ isOpen, onOpenChange, editData }) {
                                                 {children ? children : isSelected ? "Vigente" : "No vigente"}
                                             </Chip>
                                         </label>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </ModalBody>

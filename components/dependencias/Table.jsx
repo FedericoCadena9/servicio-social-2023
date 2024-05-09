@@ -205,7 +205,7 @@ export function TableComponent({ data, type, columns, initialValues, statusMap, 
                     />
                     <div className="flex gap-3">
                         <Button color="primary" onPress={() => {  setEditingDependency(null); dependenciesDisclosure.onOpen(); }} endContent={<PlusIcon className="w-5 h-5" />}>Agregar Dependencia</Button>
-                        <Dropdown>
+                        {/* <Dropdown>
                             <DropdownTrigger className="hidden sm:flex">
                                 <Button endContent={<ChevronDownIcon className="w-5 h-5" />} variant="flat">
                                     Estatus
@@ -225,7 +225,7 @@ export function TableComponent({ data, type, columns, initialValues, statusMap, 
                                     </DropdownItem>
                                 ))}
                             </DropdownMenu>
-                        </Dropdown>
+                        </Dropdown> */}
                         <Dropdown>
                             <DropdownTrigger className="hidden sm:flex">
                                 <Button endContent={<ChevronDownIcon className="text-small" />} variant="flat">

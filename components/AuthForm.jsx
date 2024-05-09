@@ -98,6 +98,7 @@ export default function AuthForm({ view }) {
             theme="light"
             providers={['google']}
             showLinks={false}
+            onlyThirdPartyProviders={true}
             redirectTo={`${location.origin}/auth/callback`}
             localization={{
                 variables: translateVariables
